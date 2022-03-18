@@ -1,7 +1,4 @@
 library rate_trip;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/views/rating.dart';
+export 'src/model/model.dart';
