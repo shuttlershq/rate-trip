@@ -25,7 +25,9 @@ class _RatingsState extends State<Ratings> {
         stars.add(
           GestureDetector(
             onTap: () {
-              widget.vm.starRating = i;
+              setState(() {
+                widget.vm.starRating = i;
+              });
               widget.onChanged(i);
             },
             child: Icon(
