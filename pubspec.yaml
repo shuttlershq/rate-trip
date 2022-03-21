@@ -8,7 +8,6 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  cached_network_image: ^3.2.0
   flutter:
     sdk: flutter
   flutter_screenutil: ^5.3.1
