@@ -9,14 +9,14 @@ class RatingCategoryOptions {
   RatingCategoryOptions.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     reference = json['reference'];
-    ratingCategoryReference = json['rating_category_reference'];
+    ratingCategoryReference = json['category_id'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = name;
     data['reference'] = reference;
-    data['rating_category_reference'] = ratingCategoryReference;
+    data['category_id'] = ratingCategoryReference;
     return data;
   }
 }
