@@ -1,11 +1,49 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:rate_trip/src/model/model.dart';
-import 'package:path/path.dart' as path;
+import 'package:rate_trip/src/service/api/api.dart';
+import 'package:rate_trip/src/service/image/image.dart';
+import 'package:rate_trip/src/service/rating/rating.dart';
+import '../model/model.dart';
+
+enum RatingState {
+  initial,
+  loading,
+  loaded,
+  error,
+}
 
 class RatingVm extends ChangeNotifier {
+  static String baseUrl = "https://api.develop.shuttlers.africa/rating";
+  ImageServiceContract imageService = ImageService();
+  late HttpServiceContract httpService;
+  late RatingServiceContract ratingService;
+
+  RatingState _state = RatingState.initial;
+  RatingState get state => _state;
+  setState(RatingState value) {
+    _state = value;
+    notifyListeners();
+  }
+
+  String? errorMessage;
+  String? get error => errorMessage;
+
+  RatingVm({ImageServiceContract? imgService, required String token}) {
+    imageService = imgService ?? imageService;
+    httpService = HttpService(baseUrl, apiDebugMode: true);
+    httpService.setToken(token);
+    ratingService = RatingService(httpService);
+  }
+
+  Trip? _trip;
+  Trip? get trip => _trip;
+  set trip(Trip? value) {
+    _trip = value;
+    notifyListeners();
+  }
+
   /// ! STAR RATING
   int _starRating = 0;
   int get starRating => _starRating;
@@ -49,51 +87,61 @@ class RatingVm extends ChangeNotifier {
   /// ! SEND RATING
   Rating get rating {
     return Rating(
-      feedbackOptions: _issues.values.map((e) => e.name).toList(),
+      settings: trip?.settings,
+      feedbackOptions: _issues.values.toList(),
       comment: _comment,
-      submittedAt: DateTime.now(),
-      userId: 'id',
       value: _starRating,
       images: _images,
     );
   }
 
   bool canSend() {
-    return _issues.isNotEmpty && _comment != null && _starRating != 0;
+    return (_starRating >= 4 && _issues.isEmpty) ||
+        (_issues.length == 5 && _starRating < 4);
   }
 
   /// ! UPLOAD FILES
+
   final List<File> _images = [];
   List<File> get images => _images;
-  Future<void> getFileGallery(BuildContext context) async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? result = await _picker.pickImage(source: ImageSource.camera);
+  Future<bool> getFileGallery({BuildContext? context}) async {
+    final File? file = await imageService.pickImage();
 
-    if (result != null) {
-      final file = File(result.path);
+    if (file != null) {
       int sizeInBytes = file.lengthSync();
       double sizeInMb = sizeInBytes / (1024 * 1024);
       if (sizeInMb > 2) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Uploaded file should be less than 2mb'),
-            backgroundColor: Colors.red,
-            duration: Duration(seconds: 3),
-          ),
-        );
+        return false;
       } else {
-        File picture = File(result.path);
-        String dir = path.dirname(result.path);
-        String newPath = path.join(dir, 'IMG_${_images.length + 1}.jpg');
-        File npicture = picture.renameSync(newPath);
-        _images.add(npicture);
+        _images.add(file);
+        return true;
       }
     }
     notifyListeners();
+
+    throw Exception('Can\'t pick file');
   }
 
   void deleteImage(File file) {
     _images.remove(file);
     notifyListeners();
+  }
+
+  Future<void> rateTrip() async {
+    setState(RatingState.loading);
+    try {
+      var response = await ratingService.rateTrip(rating);
+      if (response is Response) {
+        setState(RatingState.loaded);
+      } else {
+        setState(RatingState.error);
+        errorMessage = response.toString();
+        notifyListeners();
+      }
+    } catch (e) {
+      errorMessage = e.toString();
+      setState(RatingState.error);
+      notifyListeners();
+    }
   }
 }
