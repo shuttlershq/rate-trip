@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rate_trip/src/viewmodels/rating_vm.dart';
+import '../viewmodels/rating_vm.dart';
 
 class Ratings extends StatefulWidget {
   const Ratings({
@@ -32,6 +32,7 @@ class _RatingsState extends State<Ratings> {
             },
             child: Icon(
               Icons.star_rounded,
+              key: Key("$i"),
               color: Colors.amber,
               size: widget.size,
             ),

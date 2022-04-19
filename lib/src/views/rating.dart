@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:rate_trip/src/model/model.dart';
-import 'package:rate_trip/src/utils/colors.dart';
-import 'package:rate_trip/src/utils/size_manager.dart';
-import 'package:rate_trip/src/utils/utils.dart';
-import 'package:rate_trip/src/viewmodels/rating_vm.dart';
-import 'package:rate_trip/src/widgets/bottom_sheet.dart';
-import 'package:rate_trip/src/widgets/rating_bar.dart';
-import 'package:rate_trip/src/widgets/separator.dart';
+import '../model/model.dart';
+import '../utils/colors.dart';
+import '../utils/size_manager.dart';
+import '../utils/utils.dart';
+import '../viewmodels/rating_vm.dart';
+import '../widgets/bottom_sheet.dart';
+import '../widgets/rating_bar.dart';
+import '../widgets/separator.dart';
 
 import 'base_view.dart';
 
@@ -66,8 +66,9 @@ class RateTrip extends StatelessWidget {
     return GestureDetector(
       onTap: () => Util.offKeyboard(context),
       child: BaseView<RatingVm>(
-          model: RatingVm(),
-          onModelReady: (model) {
+          model: RatingVm(token: trip.token),
+          onModelReady: (model) async {
+            model.trip = trip;
             trip.categories?.forEach((element) {
               element.options?.forEach((element) {
                 model.options.add(element);
@@ -101,67 +102,97 @@ class RateTrip extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: SizeMg.width(20)),
                   child: SizedBox(
                     width: double.infinity,
+                    height: SizeMg.height(40),
                     child: TextButton(
                       style: TextButton.styleFrom(
                           backgroundColor: model.canSend()
                               ? btnGreen
                               : const Color(0xFFC7D1CC),
                           primary: Colors.white),
-                      onPressed: () {
-                        CustomBottomSheet.showBottomSheet(
-                            context,
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: SizeMg.width(20)),
-                              child: Column(
-                                children: [
-                                  const BottomSheetHandle(),
-                                  SizedBox(height: SizeMg.height(44)),
-                                  DetailsTile(widget: this),
-                                  SizedBox(height: SizeMg.height(25)),
-                                  Text(
-                                    "Thanks for your feedback",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: SizeMg.text(18),
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                  const SizedBox(height: 12),
-                                  Text(
-                                    "We are really sorry you had an unpleasant experience. Your feedback will help us improve our service. Thank you for riding with Shuttlers.",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: SizeMg.text(14)),
-                                    textAlign: TextAlign.justify,
-                                  ),
-                                  SizedBox(height: SizeMg.height(36)),
-                                  Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: SizedBox(
-                                      width: double.infinity,
-                                      child: TextButton(
-                                        style: TextButton.styleFrom(
-                                            backgroundColor: btnGreen,
-                                            primary: Colors.white),
-                                        onPressed: () => Navigator.popUntil(
-                                            context, (route) => route.isFirst),
-                                        child: const Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 8.0),
-                                          child: Text('Close'),
-                                        ),
+                      onPressed: (!model.canSend() ||
+                              model.state == RatingState.loading)
+                          ? null
+                          : () async {
+                              await model.rateTrip();
+                              if (model.state == RatingState.loaded) {
+                                CustomBottomSheet.showBottomSheet(
+                                    context,
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: SizeMg.width(20)),
+                                      child: Column(
+                                        children: [
+                                          const BottomSheetHandle(),
+                                          SizedBox(height: SizeMg.height(44)),
+                                          DetailsTile(widget: this),
+                                          SizedBox(height: SizeMg.height(25)),
+                                          Text(
+                                            "Thanks for your feedback",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: SizeMg.text(18),
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                          const SizedBox(height: 12),
+                                          Text(
+                                            "Your feedback will help us improve our service.\nThank you for riding with Shuttlers.",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: SizeMg.text(14),
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          SizedBox(height: SizeMg.height(36)),
+                                          Align(
+                                            alignment: Alignment.bottomCenter,
+                                            child: SizedBox(
+                                              width: double.infinity,
+                                              child: TextButton(
+                                                style: TextButton.styleFrom(
+                                                    backgroundColor: btnGreen,
+                                                    primary: Colors.white),
+                                                onPressed: () =>
+                                                    Navigator.popUntil(
+                                                        context,
+                                                        (route) =>
+                                                            route.isFirst),
+                                                child: const Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 8.0),
+                                                  child: Text('Close'),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 40),
+                                        ],
                                       ),
                                     ),
+                                    heightfactor: 0.43596);
+                              }
+
+                              if (model.state == RatingState.error) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        model.error ?? "Could not rate trip"),
+                                    backgroundColor: Colors.red,
+                                    duration: const Duration(seconds: 3),
                                   ),
-                                  const SizedBox(height: 40),
-                                ],
-                              ),
-                            ),
-                            heightfactor: 0.43596);
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
-                        child: Text('Send'),
+                                );
+                              }
+                            },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: model.state == RatingState.loading
+                            ? SizedBox(
+                                width: SizeMg.width(20),
+                                height: double.infinity,
+                                child: const CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              )
+                            : const Text('Send'),
                       ),
                     ),
                   ),
@@ -207,7 +238,6 @@ class RateTrip extends StatelessWidget {
                               model.clearIssues();
                             }
                             model.starRating = newValue;
-                            // setState(() {});
                           },
                         ),
                         if (model.starRating <= 3) const SizedBox(height: 28),
@@ -370,7 +400,30 @@ class RateTrip extends StatelessWidget {
                         Row(
                           children: [
                             GestureDetector(
-                              onTap: () => model.getFileGallery(context),
+                              onTap: () async {
+                                try {
+                                  var result = await model.getFileGallery(
+                                      context: context);
+                                  if (!result) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            'Uploaded file should be less than 2mb'),
+                                        backgroundColor: Colors.red,
+                                        duration: Duration(seconds: 3),
+                                      ),
+                                    );
+                                  }
+                                } catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(model.error!),
+                                      backgroundColor: Colors.red,
+                                      duration: const Duration(seconds: 3),
+                                    ),
+                                  );
+                                }
+                              },
                               child: Container(
                                 decoration: const BoxDecoration(
                                   color: grey,
