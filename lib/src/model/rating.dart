@@ -22,7 +22,7 @@ class Rating {
     data['setting_id'] = settings?.settingId;
     data['issues'] = feedbackOptions
         .map((e) => {
-              'option_id': e?.name,
+              'option_id': e?.reference,
             })
         .toList();
     data['star'] = value;
