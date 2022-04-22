@@ -192,7 +192,10 @@ class RateTrip extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                               )
-                            : const Text('Send'),
+                            : const Text(
+                                'Send',
+                                style: TextStyle(color: Colors.white),
+                              ),
                       ),
                     ),
                   ),
@@ -512,7 +515,7 @@ class DetailsTile extends StatelessWidget {
                 top: 0,
                 bottom: 0,
                 child: Image(
-                  image: AssetImage(widget.trip.settings!.driverAvatar!),
+                  image: NetworkImage(widget.trip.settings!.driverAvatar!),
                   width: SizeMg.width(31),
                 ),
               ),
@@ -522,7 +525,7 @@ class DetailsTile extends StatelessWidget {
                 bottom: 0,
                 child: Image(
                   width: SizeMg.width(40),
-                  image: AssetImage(widget.trip.settings!.userAvatar!),
+                  image: NetworkImage(widget.trip.settings!.userAvatar!),
                 ),
               ),
             ],
@@ -533,14 +536,14 @@ class DetailsTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Mufasa Bigson',
+              widget.trip.settings!.driverName!,
               style: TextStyle(
                   fontSize: SizeMg.text(12),
                   color: black,
                   fontWeight: FontWeight.w400),
             ),
             Text(
-              'Toyota Coaster Bus • S21',
+              '${widget.trip.settings!.vehicleName!} • ${widget.trip.settings!.vehicleNumber!}',
               style: TextStyle(
                   fontSize: SizeMg.text(12), fontWeight: FontWeight.w400),
             )
