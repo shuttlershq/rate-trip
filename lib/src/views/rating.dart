@@ -103,13 +103,21 @@ class RateTrip extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: SizeMg.width(20)),
                   child: SizedBox(
                     width: double.infinity,
-                    height: SizeMg.height(40),
                     child: TextButton(
                       style: TextButton.styleFrom(
-                          backgroundColor: model.canSend()
-                              ? btnGreen
-                              : const Color(0xFFC7D1CC),
-                          primary: Colors.white),
+                        backgroundColor: model.canSend()
+                            ? btnGreen
+                            : const Color(0xFFC7D1CC),
+                        primary: Colors.black,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        textStyle: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          fontStyle: FontStyle.normal,
+                        ),
+                        elevation: 0.0,
+                      ),
                       onPressed: (!model.canSend() ||
                               model.state == RatingState.loading)
                           ? null
@@ -183,21 +191,17 @@ class RateTrip extends StatelessWidget {
                                 );
                               }
                             },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: model.state == RatingState.loading
-                            ? SizedBox(
-                                width: SizeMg.width(20),
-                                height: double.infinity,
-                                child: const CircularProgressIndicator(
-                                  color: Colors.white,
-                                ),
-                              )
-                            : const Text(
-                                'Send',
-                                style: TextStyle(color: Colors.white),
+                      child: model.state == RatingState.loading
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                valueColor:
+                                    AlwaysStoppedAnimation(Colors.white),
                               ),
-                      ),
+                            )
+                          : const Text('Send'),
                     ),
                   ),
                 ),
@@ -238,14 +242,18 @@ class RateTrip extends StatelessWidget {
                           vm: model,
                           size: SizeMg.width(50),
                           onChanged: (newValue) {
-                            if (newValue > 3) {
+                            if (newValue >
+                                (model.trip?.serviceSettings?.threshold ?? 3)) {
                               model.clearIssues();
                             }
                             model.starRating = newValue;
                           },
                         ),
-                        if (model.starRating <= 3) const SizedBox(height: 28),
-                        if (model.starRating <= 3)
+                        if (model.starRating <=
+                            (model.trip?.serviceSettings?.threshold ?? 3))
+                          const SizedBox(height: 28),
+                        if (model.starRating <=
+                            (model.trip?.serviceSettings?.threshold ?? 3))
                           const Text(
                             "Please select an Issue",
                             style: TextStyle(
@@ -253,17 +261,23 @@ class RateTrip extends StatelessWidget {
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-                        if (model.starRating <= 3) const SizedBox(height: 4),
-                        if (model.starRating <= 3)
-                          const Text(
-                            "please choose Up to 5 Issue",
-                            style: TextStyle(
+                        if (model.starRating <=
+                            (model.trip?.serviceSettings?.threshold ?? 3))
+                          const SizedBox(height: 4),
+                        if (model.starRating <=
+                            (model.trip?.serviceSettings?.threshold ?? 3))
+                          Text(
+                            "please choose Up to ${model.trip?.serviceSettings?.minValue ?? 5} Issue",
+                            style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-                        if (model.starRating <= 3) const SizedBox(height: 8),
-                        if (model.starRating <= 3)
+                        if (model.starRating <=
+                            (model.trip?.serviceSettings?.threshold ?? 3))
+                          const SizedBox(height: 8),
+                        if (model.starRating <=
+                            (model.trip?.serviceSettings?.threshold ?? 3))
                           wrapServicesWidget(
                               model.options.sublist(
                                   0,
@@ -271,8 +285,11 @@ class RateTrip extends StatelessWidget {
                                       ? 5
                                       : model.options.length),
                               model),
-                        if (model.starRating <= 3) const SizedBox(height: 18),
-                        if (model.starRating <= 3)
+                        if (model.starRating <=
+                            (model.trip?.serviceSettings?.threshold ?? 3))
+                          const SizedBox(height: 18),
+                        if (model.starRating <=
+                            (model.trip?.serviceSettings?.threshold ?? 3))
                           InkWell(
                               onTap: () {
                                 CustomBottomSheet.showBottomSheet(
@@ -305,8 +322,8 @@ class RateTrip extends StatelessWidget {
                                                             Colors.transparent),
                                                 child: ExpansionTile(
                                                   textColor: Colors.black,
-                                                  leading:
-                                                      const Icon(Icons.circle),
+                                                  // leading: const Icon(
+                                                  //     Icons.category),
                                                   title: Text(
                                                     trip.categories![index]
                                                         .name!,
@@ -381,6 +398,8 @@ class RateTrip extends StatelessWidget {
                           },
                           decoration: InputDecoration(
                             hintText: "Enter message here",
+                            hintStyle:
+                                const TextStyle(fontSize: 16.0, color: black),
                             fillColor: Colors.white,
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
@@ -444,13 +463,8 @@ class RateTrip extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 12),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Text('Upload supporting media (picture/video)'),
-                                Text('Max. of 2 MB')
-                              ],
-                            ),
+                            const Text(
+                                'Upload supporting media (picture)\nMax. of 2 MB'),
                           ],
                         ),
                         if (model.images.isNotEmpty)

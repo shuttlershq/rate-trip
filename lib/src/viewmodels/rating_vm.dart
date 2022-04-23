@@ -73,7 +73,8 @@ class RatingVm extends ChangeNotifier {
   }
 
   void addIssues(RatingCategoryOptions issue) {
-    !_issues.containsKey(issue.reference!) && _issues.keys.length < 5
+    !_issues.containsKey(issue.reference!) &&
+            _issues.keys.length < (trip?.serviceSettings?.minValue ?? 5)
         ? _issues.putIfAbsent(issue.reference!, () => issue)
         : _issues.remove(issue.reference);
     notifyListeners();
@@ -96,8 +97,11 @@ class RatingVm extends ChangeNotifier {
   }
 
   bool canSend() {
-    return (_starRating >= 4 && _issues.isEmpty) ||
-        (_issues.length == 5 && _starRating < 4);
+    return (_starRating >= (trip?.serviceSettings?.threshold ?? 4) &&
+            _issues.isEmpty) ||
+        (_issues.length == (trip?.serviceSettings?.minValue ?? 5) &&
+            (_starRating < (trip?.serviceSettings?.threshold ?? 4) &&
+                _starRating > 0));
   }
 
   /// ! UPLOAD FILES
