@@ -100,7 +100,8 @@ class RateTrip extends StatelessWidget {
               ),
               bottomNavigationBar: SafeArea(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: SizeMg.width(20)),
+                  padding: EdgeInsets.fromLTRB(
+                      SizeMg.width(20), 0, SizeMg.width(20), SizeMg.height(20)),
                   child: SizedBox(
                     width: double.infinity,
                     child: TextButton(
