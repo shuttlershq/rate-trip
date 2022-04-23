@@ -527,7 +527,7 @@ class DetailsTile extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-          width: SizeMg.width(62),
+          width: SizeMg.width(65),
           height: SizeMg.height(40),
           child: Stack(
             children: [
@@ -538,40 +538,7 @@ class DetailsTile extends StatelessWidget {
                 child: CachedNetworkImage(
                   imageUrl: widget.trip.settings?.driverAvatar ?? '',
                   imageBuilder: (context, imageProvider) => Container(
-                    height: SizeMg.height(80),
-                    width: SizeMg.width(80),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.grey[200]!),
-                      image: DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  placeholder: (context, url) =>
-                      const CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => Icon(
-                    Icons.person,
-                    color: darkGreen,
-                    size: SizeMg.width(40),
-                  ),
-                ),
-              ),
-              // Image(
-              //     image: NetworkImage(widget.trip.settings?.driverAvatar ?? ''),
-              //     width: SizeMg.width(31),
-              //   ),
-              // ),
-              Positioned(
-                left: 0,
-                top: 0,
-                bottom: 0,
-                child: CachedNetworkImage(
-                  imageUrl: widget.trip.settings?.userAvatar ?? '',
-                  imageBuilder: (context, imageProvider) => Container(
-                    height: SizeMg.height(80),
-                    width: SizeMg.width(80),
+                    width: SizeMg.width(40),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(color: Colors.grey[200]!),
@@ -589,11 +556,32 @@ class DetailsTile extends StatelessWidget {
                     size: SizeMg.width(40),
                   ),
                 ),
-                // ),
-                // Image(
-                //   width: SizeMg.width(40),
-                //   image: NetworkImage(widget.trip.settings?.userAvatar ?? ''),
-                // ),
+              ),
+              Positioned(
+                left: 0,
+                top: 0,
+                bottom: 0,
+                child: CachedNetworkImage(
+                  imageUrl: widget.trip.settings?.userAvatar ?? '',
+                  imageBuilder: (context, imageProvider) => Container(
+                    width: SizeMg.width(40),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.grey[200]!),
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  placeholder: (context, url) =>
+                      const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Icon(
+                    Icons.person,
+                    color: darkGreen,
+                    size: SizeMg.width(40),
+                  ),
+                ),
               ),
             ],
           ),
