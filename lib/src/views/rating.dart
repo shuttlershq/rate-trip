@@ -144,12 +144,16 @@ class RateTrip extends StatelessWidget {
                                           ),
                                           const SizedBox(height: 12),
                                           Text(
-                                            "Your feedback will help us improve our service.\nThank you for riding with Shuttlers.",
+                                            model.starRating >=
+                                                    (model.trip?.serviceSettings
+                                                            ?.threshold ??
+                                                        4)
+                                                ? "We are glad you had a pleasant experience. Your feedback will help us improve our service. Thank you for riding with Shuttlers."
+                                                : "We are really sorry you had an unpleasant experience. Your feedback will help us improve our service. Thank you for riding with Shuttlers.",
                                             style: TextStyle(
                                               fontWeight: FontWeight.w400,
                                               fontSize: SizeMg.text(14),
                                             ),
-                                            textAlign: TextAlign.center,
                                           ),
                                           SizedBox(height: SizeMg.height(36)),
                                           Align(
@@ -158,8 +162,18 @@ class RateTrip extends StatelessWidget {
                                               width: double.infinity,
                                               child: TextButton(
                                                 style: TextButton.styleFrom(
-                                                    backgroundColor: btnGreen,
-                                                    primary: Colors.white),
+                                                  backgroundColor: btnGreen,
+                                                  primary: Colors.black,
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 16),
+                                                  textStyle: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontStyle: FontStyle.normal,
+                                                  ),
+                                                  elevation: 0.0,
+                                                ),
                                                 onPressed: () =>
                                                     Navigator.popUntil(
                                                         context,
