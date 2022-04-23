@@ -256,18 +256,18 @@ class RateTrip extends StatelessWidget {
                           vm: model,
                           size: SizeMg.width(50),
                           onChanged: (newValue) {
-                            if (newValue >
-                                (model.trip?.serviceSettings?.threshold ?? 3)) {
+                            if (newValue >=
+                                (model.trip?.serviceSettings?.threshold ?? 4)) {
                               model.clearIssues();
                             }
                             model.starRating = newValue;
                           },
                         ),
-                        if (model.starRating <=
-                            (model.trip?.serviceSettings?.threshold ?? 3))
+                        if (model.starRating <
+                            (model.trip?.serviceSettings?.threshold ?? 4))
                           const SizedBox(height: 28),
-                        if (model.starRating <=
-                            (model.trip?.serviceSettings?.threshold ?? 3))
+                        if (model.starRating <
+                            (model.trip?.serviceSettings?.threshold ?? 4))
                           const Text(
                             "Please select an Issue",
                             style: TextStyle(
@@ -275,11 +275,11 @@ class RateTrip extends StatelessWidget {
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-                        if (model.starRating <=
-                            (model.trip?.serviceSettings?.threshold ?? 3))
+                        if (model.starRating <
+                            (model.trip?.serviceSettings?.threshold ?? 4))
                           const SizedBox(height: 4),
-                        if (model.starRating <=
-                            (model.trip?.serviceSettings?.threshold ?? 3))
+                        if (model.starRating <
+                            (model.trip?.serviceSettings?.threshold ?? 4))
                           Text(
                             "please choose Up to ${model.trip?.serviceSettings?.minValue ?? 5} Issue",
                             style: const TextStyle(
@@ -287,11 +287,11 @@ class RateTrip extends StatelessWidget {
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-                        if (model.starRating <=
-                            (model.trip?.serviceSettings?.threshold ?? 3))
+                        if (model.starRating <
+                            (model.trip?.serviceSettings?.threshold ?? 4))
                           const SizedBox(height: 8),
-                        if (model.starRating <=
-                            (model.trip?.serviceSettings?.threshold ?? 3))
+                        if (model.starRating <
+                            (model.trip?.serviceSettings?.threshold ?? 4))
                           wrapServicesWidget(
                               model.options.sublist(
                                   0,
@@ -299,11 +299,11 @@ class RateTrip extends StatelessWidget {
                                       ? 5
                                       : model.options.length),
                               model),
-                        if (model.starRating <=
-                            (model.trip?.serviceSettings?.threshold ?? 3))
+                        if (model.starRating <
+                            (model.trip?.serviceSettings?.threshold ?? 4))
                           const SizedBox(height: 18),
-                        if (model.starRating <=
-                            (model.trip?.serviceSettings?.threshold ?? 3))
+                        if (model.starRating <
+                            (model.trip?.serviceSettings?.threshold ?? 4))
                           InkWell(
                               onTap: () {
                                 CustomBottomSheet.showBottomSheet(
