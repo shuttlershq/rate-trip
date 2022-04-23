@@ -357,15 +357,21 @@ class RateTrip extends StatelessWidget {
                                               width: double.infinity,
                                               child: TextButton(
                                                 style: TextButton.styleFrom(
-                                                    backgroundColor: btnGreen,
-                                                    primary: Colors.white),
+                                                  backgroundColor: btnGreen,
+                                                  primary: Colors.black,
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 16),
+                                                  textStyle: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontStyle: FontStyle.normal,
+                                                  ),
+                                                  elevation: 0.0,
+                                                ),
                                                 onPressed: () =>
                                                     Navigator.pop(context),
-                                                child: const Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 8.0),
-                                                  child: Text('Done'),
-                                                ),
+                                                child: const Text('Done'),
                                               ),
                                             ),
                                           ),
