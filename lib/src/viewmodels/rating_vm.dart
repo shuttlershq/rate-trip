@@ -97,7 +97,7 @@ class RatingVm extends ChangeNotifier {
   }
 
   bool canSend() {
-    if (_comment == null) {
+    if (_comment == null || _comment == '') {
       return false;
     }
     return (_starRating >= (trip?.serviceSettings?.threshold ?? 4) &&
