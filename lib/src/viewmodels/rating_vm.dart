@@ -15,7 +15,6 @@ enum RatingState {
 }
 
 class RatingVm extends ChangeNotifier {
-  static String baseUrl = "https://api.develop.shuttlers.africa/rating";
   ImageServiceContract imageService = ImageService();
   late HttpServiceContract httpService;
   late RatingServiceContract ratingService;
@@ -30,16 +29,17 @@ class RatingVm extends ChangeNotifier {
   String? errorMessage;
   String? get error => errorMessage;
 
-  RatingVm({ImageServiceContract? imgService, required String token}) {
+  RatingVm({ImageServiceContract? imgService, required Trip trip}) {
+    _trip = trip;
     imageService = imgService ?? imageService;
-    httpService = HttpService(baseUrl, apiDebugMode: true);
-    httpService.setToken(token);
+    httpService = HttpService(_trip.baseUrl!, apiDebugMode: true);
+    httpService.setToken(trip.token!);
     ratingService = RatingService(httpService);
   }
 
-  Trip? _trip;
-  Trip? get trip => _trip;
-  set trip(Trip? value) {
+  late Trip _trip;
+  Trip get trip => _trip;
+  set trip(Trip value) {
     _trip = value;
     notifyListeners();
   }
@@ -74,7 +74,7 @@ class RatingVm extends ChangeNotifier {
 
   void addIssues(RatingCategoryOptions issue) {
     !_issues.containsKey(issue.reference!) &&
-            _issues.keys.length < (trip?.serviceSettings?.minValue ?? 5)
+            _issues.keys.length < (trip.serviceSettings?.minValue ?? 5)
         ? _issues.putIfAbsent(issue.reference!, () => issue)
         : _issues.remove(issue.reference);
     notifyListeners();
@@ -88,7 +88,7 @@ class RatingVm extends ChangeNotifier {
   /// ! SEND RATING
   Rating get rating {
     return Rating(
-      settings: trip?.settings,
+      settings: trip.settings,
       feedbackOptions: _issues.values.toList(),
       comment: _comment,
       value: _starRating,
@@ -100,10 +100,10 @@ class RatingVm extends ChangeNotifier {
     if (_comment == null || _comment == '') {
       return false;
     }
-    return (_starRating >= (trip?.serviceSettings?.threshold ?? 4) &&
+    return (_starRating >= (trip.serviceSettings?.threshold ?? 4) &&
             _issues.isEmpty) ||
-        (_issues.length == (trip?.serviceSettings?.minValue ?? 5) &&
-            (_starRating < (trip?.serviceSettings?.threshold ?? 4) &&
+        (_issues.length == (trip.serviceSettings?.minValue ?? 5) &&
+            (_starRating < (trip.serviceSettings?.threshold ?? 4) &&
                 _starRating > 0));
   }
 
