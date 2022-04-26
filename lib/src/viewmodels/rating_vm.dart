@@ -6,6 +6,7 @@ import 'package:rate_trip/src/service/api/api.dart';
 import 'package:rate_trip/src/service/image/image.dart';
 import 'package:rate_trip/src/service/rating/rating.dart';
 import '../model/model.dart';
+import 'package:path/path.dart' as path;
 
 enum RatingState {
   initial,
@@ -92,7 +93,7 @@ class RatingVm extends ChangeNotifier {
       feedbackOptions: _issues.values.toList(),
       comment: _comment,
       value: _starRating,
-      images: _images,
+      images: [],
     );
   }
 
@@ -105,7 +106,8 @@ class RatingVm extends ChangeNotifier {
     }
     return (_starRating! > (trip.serviceSettings?.threshold ?? 3) &&
             _issues.isEmpty) ||
-        (_issues.length == (trip.serviceSettings?.maxValue ?? 5) &&
+        (_issues.length <= (trip.serviceSettings?.maxValue ?? 5) &&
+            _issues.length >= (trip.serviceSettings?.minValue ?? 1) &&
             (_starRating! <= (trip.serviceSettings?.threshold ?? 3) &&
                 _starRating! > 0));
   }
@@ -121,12 +123,19 @@ class RatingVm extends ChangeNotifier {
       int sizeInBytes = file.lengthSync();
       double sizeInMb = sizeInBytes / (1024 * 1024);
       if (sizeInMb > 5) {
+        errorMessage = 'Image greater than 5MB';
+        notifyListeners();
         return false;
       } else {
-        _images.add(file);
+        String dir = path.dirname(file.path);
+        String newPath = path.join(dir, 'IMG_${_images.length + 1}.jpg');
+        File npicture = file.renameSync(newPath);
+        _images.add(npicture);
+        notifyListeners();
         return true;
       }
     }
+    errorMessage = 'Can\'t pick file';
     notifyListeners();
 
     throw Exception('Can\'t pick file');
@@ -144,13 +153,11 @@ class RatingVm extends ChangeNotifier {
       if (response is Response) {
         setState(RatingState.loaded);
       } else {
-        print('here');
         setState(RatingState.error);
         errorMessage = response.toString();
         notifyListeners();
       }
     } catch (e) {
-      print('here');
       errorMessage = e.toString();
       setState(RatingState.error);
       notifyListeners();
