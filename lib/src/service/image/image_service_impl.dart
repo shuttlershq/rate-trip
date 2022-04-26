@@ -9,7 +9,7 @@ class ImageService implements ImageServiceContract {
   Future<File?>? pickImage() async {
     final ImagePicker _picker = ImagePicker();
     File? file;
-    final XFile? result = await _picker.pickImage(source: ImageSource.camera);
+    final XFile? result = await _picker.pickImage(source: ImageSource.gallery);
 
     if (result != null) {
       file = File(result.path);
