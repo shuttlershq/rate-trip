@@ -98,10 +98,11 @@ class RatingVm extends ChangeNotifier {
   }
 
   bool canSend() {
-    // if (_comment == null || _comment == '') {
-    //   return false;
-    // }
     if (_starRating == null || _starRating == 0) {
+      return false;
+    }
+    if (((_comment == null || _comment == '') &&
+        _starRating! <= (trip.serviceSettings?.threshold ?? 3))) {
       return false;
     }
     return (_starRating! > (trip.serviceSettings?.threshold ?? 3) &&
