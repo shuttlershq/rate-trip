@@ -145,7 +145,7 @@ class RateTrip extends StatelessWidget {
                                           ),
                                           const SizedBox(height: 12),
                                           Text(
-                                            model.starRating >=
+                                            model.starRating! >=
                                                     (model.trip.serviceSettings
                                                             ?.threshold ??
                                                         4)
@@ -264,154 +264,173 @@ class RateTrip extends StatelessWidget {
                             model.starRating = newValue;
                           },
                         ),
-                        if (model.starRating <
-                            (model.trip.serviceSettings?.threshold ?? 4))
-                          const SizedBox(height: 28),
-                        if (model.starRating <
-                            (model.trip.serviceSettings?.threshold ?? 4))
-                          const Text(
-                            "Please select an Issue",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        if (model.starRating <
-                            (model.trip.serviceSettings?.threshold ?? 4))
-                          const SizedBox(height: 4),
-                        if (model.starRating <
-                            (model.trip.serviceSettings?.threshold ?? 4))
-                          Text(
-                            "please choose Up to ${model.trip.serviceSettings?.minValue ?? 5} Issue",
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        if (model.starRating <
-                            (model.trip.serviceSettings?.threshold ?? 4))
-                          const SizedBox(height: 8),
-                        if (model.starRating <
-                            (model.trip.serviceSettings?.threshold ?? 4))
-                          wrapServicesWidget(
-                              model.options.sublist(
-                                  0,
-                                  model.options.length > 5
-                                      ? 5
-                                      : model.options.length),
-                              model),
-                        if (model.starRating <
-                            (model.trip.serviceSettings?.threshold ?? 4))
-                          const SizedBox(height: 18),
-                        if (model.starRating <
-                            (model.trip.serviceSettings?.threshold ?? 4))
-                          InkWell(
-                              onTap: () {
-                                CustomBottomSheet.showBottomSheet(
-                                    context,
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16),
-                                      child: Column(
-                                        children: [
-                                          const BottomSheetHandle(),
-                                          SizedBox(height: SizeMg.height(32)),
-                                          const Text('Your rating'),
-                                          Ratings(
-                                            vm: model,
-                                            size: SizeMg.width(50),
-                                            onChanged: (newValue) {
-                                              // setState(() {});
-                                            },
-                                          ),
-                                          const Divider(),
-                                          ListView.builder(
-                                            shrinkWrap: true,
-                                            itemCount: trip.categories?.length,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              return Theme(
-                                                data: Theme.of(context)
-                                                    .copyWith(
-                                                        dividerColor:
-                                                            Colors.transparent),
-                                                child: ExpansionTile(
-                                                  textColor: Colors.black,
-                                                  // leading: const Icon(
-                                                  //     Icons.category),
-                                                  title: Text(
-                                                    trip.categories![index]
-                                                        .name!,
-                                                    style: TextStyle(
-                                                      fontSize: SizeMg.text(16),
-                                                      fontWeight:
-                                                          FontWeight.w400,
+                        if (model.starRating != null)
+                          Column(
+                            children: [
+                              if (model.starRating! <=
+                                  (model.trip.serviceSettings?.threshold ?? 3))
+                                const SizedBox(height: 28),
+                              if (model.starRating! <=
+                                  (model.trip.serviceSettings?.threshold ?? 3))
+                                const Text(
+                                  "Please select an Issue",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              if (model.starRating! <=
+                                  (model.trip.serviceSettings?.threshold ?? 3))
+                                const SizedBox(height: 4),
+                              if (model.starRating! <=
+                                  (model.trip.serviceSettings?.threshold ?? 3))
+                                Text(
+                                  "please choose Up to ${model.trip.serviceSettings?.maxValue ?? 5} Issue",
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              if (model.starRating! <=
+                                  (model.trip.serviceSettings?.threshold ?? 3))
+                                const SizedBox(height: 8),
+                              if (model.starRating! <=
+                                  (model.trip.serviceSettings?.threshold ?? 3))
+                                wrapServicesWidget(
+                                    model.options.sublist(
+                                        0,
+                                        model.options.length > 5
+                                            ? 5
+                                            : model.options.length),
+                                    model),
+                              if (model.starRating! <=
+                                  (model.trip.serviceSettings?.threshold ?? 3))
+                                const SizedBox(height: 18),
+                              if (model.starRating! <=
+                                  (model.trip.serviceSettings?.threshold ?? 3))
+                                InkWell(
+                                    onTap: () {
+                                      CustomBottomSheet.showBottomSheet(
+                                          context,
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16),
+                                            child: Column(
+                                              children: [
+                                                const BottomSheetHandle(),
+                                                SizedBox(
+                                                    height: SizeMg.height(32)),
+                                                const Text('Your rating'),
+                                                Ratings(
+                                                  vm: model,
+                                                  size: SizeMg.width(50),
+                                                  onChanged: (newValue) {
+                                                    // setState(() {});
+                                                  },
+                                                ),
+                                                const Divider(),
+                                                ListView.builder(
+                                                  shrinkWrap: true,
+                                                  itemCount:
+                                                      trip.categories?.length,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    return Theme(
+                                                      data: Theme.of(context)
+                                                          .copyWith(
+                                                              dividerColor: Colors
+                                                                  .transparent),
+                                                      child: ExpansionTile(
+                                                        textColor: Colors.black,
+                                                        title: Text(
+                                                          trip
+                                                              .categories![
+                                                                  index]
+                                                              .name!,
+                                                          style: TextStyle(
+                                                            fontSize:
+                                                                SizeMg.text(16),
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                          ),
+                                                        ),
+                                                        children: [
+                                                          wrapServicesWidget(
+                                                              model.options
+                                                                  .where((element) =>
+                                                                      element
+                                                                          .ratingCategoryReference ==
+                                                                      trip
+                                                                          .categories![
+                                                                              index]
+                                                                          .reference)
+                                                                  .toList(),
+                                                              model),
+                                                        ],
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
+                                                const SizedBox(height: 151),
+                                                Align(
+                                                  alignment:
+                                                      Alignment.bottomCenter,
+                                                  child: SizedBox(
+                                                    width: double.infinity,
+                                                    child: TextButton(
+                                                      style:
+                                                          TextButton.styleFrom(
+                                                        backgroundColor:
+                                                            btnGreen,
+                                                        primary: Colors.black,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 16),
+                                                        textStyle:
+                                                            const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                        ),
+                                                        elevation: 0.0,
+                                                      ),
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              context),
+                                                      child: const Text('Done'),
                                                     ),
                                                   ),
-                                                  children: [
-                                                    wrapServicesWidget(
-                                                        model.options
-                                                            .where((element) =>
-                                                                element
-                                                                    .ratingCategoryReference ==
-                                                                trip
-                                                                    .categories![
-                                                                        index]
-                                                                    .reference)
-                                                            .toList(),
-                                                        model),
-                                                  ],
                                                 ),
-                                              );
-                                            },
-                                          ),
-                                          const SizedBox(height: 151),
-                                          Align(
-                                            alignment: Alignment.bottomCenter,
-                                            child: SizedBox(
-                                              width: double.infinity,
-                                              child: TextButton(
-                                                style: TextButton.styleFrom(
-                                                  backgroundColor: btnGreen,
-                                                  primary: Colors.black,
-                                                  padding: const EdgeInsets
-                                                      .symmetric(vertical: 16),
-                                                  textStyle: const TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontStyle: FontStyle.normal,
-                                                  ),
-                                                  elevation: 0.0,
-                                                ),
-                                                onPressed: () =>
-                                                    Navigator.pop(context),
-                                                child: const Text('Done'),
-                                              ),
+                                                const SizedBox(height: 40),
+                                              ],
                                             ),
-                                          ),
-                                          const SizedBox(height: 40),
-                                        ],
-                                      ),
-                                    ));
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  Text(
-                                    "View more issues",
-                                    style: TextStyle(
-                                        color: darkGreen,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: darkGreen,
-                                    size: 11,
-                                  )
-                                ],
-                              )),
+                                          ));
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: const [
+                                        Text(
+                                          "View more issues",
+                                          style: TextStyle(
+                                              color: darkGreen,
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                        Icon(
+                                          Icons.arrow_forward_ios,
+                                          color: darkGreen,
+                                          size: 11,
+                                        )
+                                      ],
+                                    )),
+                            ],
+                          ),
                         const SizedBox(height: 36),
                         TextField(
                           onChanged: (v) {
@@ -452,7 +471,7 @@ class RateTrip extends StatelessWidget {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                         content: Text(
-                                            'Uploaded file should be less than 2mb'),
+                                            'Uploaded file should be less than 5mb'),
                                         backgroundColor: Colors.red,
                                         duration: Duration(seconds: 3),
                                       ),
@@ -485,7 +504,7 @@ class RateTrip extends StatelessWidget {
                             ),
                             const SizedBox(width: 12),
                             const Text(
-                                'Upload supporting media (picture)\nMax. of 2 MB'),
+                                'Upload supporting media (picture)\nMax. of 5 MB'),
                           ],
                         ),
                         if (model.images.isNotEmpty)

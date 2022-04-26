@@ -61,7 +61,7 @@ class _RatingsState extends State<Ratings> {
     return Builder(builder: (context) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: ratings(widget.vm.starRating),
+        children: ratings(widget.vm.starRating ?? 0),
       );
     });
   }

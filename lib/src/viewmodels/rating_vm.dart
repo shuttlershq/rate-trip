@@ -45,9 +45,9 @@ class RatingVm extends ChangeNotifier {
   }
 
   /// ! STAR RATING
-  int _starRating = 0;
-  int get starRating => _starRating;
-  set starRating(int v) {
+  int? _starRating;
+  int? get starRating => _starRating;
+  set starRating(int? v) {
     _starRating = v;
     notifyListeners();
   }
@@ -74,7 +74,7 @@ class RatingVm extends ChangeNotifier {
 
   void addIssues(RatingCategoryOptions issue) {
     !_issues.containsKey(issue.reference!) &&
-            _issues.keys.length < (trip.serviceSettings?.minValue ?? 5)
+            _issues.keys.length < (trip.serviceSettings?.maxValue ?? 5)
         ? _issues.putIfAbsent(issue.reference!, () => issue)
         : _issues.remove(issue.reference);
     notifyListeners();
@@ -97,14 +97,17 @@ class RatingVm extends ChangeNotifier {
   }
 
   bool canSend() {
-    if (_comment == null || _comment == '') {
+    // if (_comment == null || _comment == '') {
+    //   return false;
+    // }
+    if (_starRating == null || _starRating == 0) {
       return false;
     }
-    return (_starRating >= (trip.serviceSettings?.threshold ?? 4) &&
+    return (_starRating! > (trip.serviceSettings?.threshold ?? 3) &&
             _issues.isEmpty) ||
-        (_issues.length == (trip.serviceSettings?.minValue ?? 5) &&
-            (_starRating < (trip.serviceSettings?.threshold ?? 4) &&
-                _starRating > 0));
+        (_issues.length == (trip.serviceSettings?.maxValue ?? 5) &&
+            (_starRating! <= (trip.serviceSettings?.threshold ?? 3) &&
+                _starRating! > 0));
   }
 
   /// ! UPLOAD FILES
@@ -117,7 +120,7 @@ class RatingVm extends ChangeNotifier {
     if (file != null) {
       int sizeInBytes = file.lengthSync();
       double sizeInMb = sizeInBytes / (1024 * 1024);
-      if (sizeInMb > 2) {
+      if (sizeInMb > 5) {
         return false;
       } else {
         _images.add(file);
@@ -141,11 +144,13 @@ class RatingVm extends ChangeNotifier {
       if (response is Response) {
         setState(RatingState.loaded);
       } else {
+        print('here');
         setState(RatingState.error);
         errorMessage = response.toString();
         notifyListeners();
       }
     } catch (e) {
+      print('here');
       errorMessage = e.toString();
       setState(RatingState.error);
       notifyListeners();
