@@ -312,104 +312,125 @@ class RateTrip extends StatelessWidget {
                                     onTap: () {
                                       CustomBottomSheet.showBottomSheet(
                                           context,
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 16),
-                                            child: Column(
-                                              children: [
-                                                const BottomSheetHandle(),
-                                                SizedBox(
-                                                    height: SizeMg.height(32)),
-                                                const Text('Your rating'),
-                                                Ratings(
-                                                  vm: model,
-                                                  size: SizeMg.width(50),
-                                                  onChanged: (newValue) {
-                                                    // setState(() {});
-                                                  },
-                                                ),
-                                                const Divider(),
-                                                ListView.builder(
-                                                  shrinkWrap: true,
-                                                  itemCount:
-                                                      trip.categories?.length,
-                                                  itemBuilder:
-                                                      (BuildContext context,
-                                                          int index) {
-                                                    return Theme(
-                                                      data: Theme.of(context)
-                                                          .copyWith(
-                                                              dividerColor: Colors
-                                                                  .transparent),
-                                                      child: ExpansionTile(
-                                                        textColor: Colors.black,
-                                                        title: Text(
-                                                          trip
-                                                              .categories![
-                                                                  index]
-                                                              .name!,
-                                                          style: TextStyle(
-                                                            fontSize:
-                                                                SizeMg.text(16),
-                                                            fontWeight:
-                                                                FontWeight.w400,
+                                          BaseView<RatingVm>(
+                                              model: model,
+                                              builder: (context, model, _) {
+                                                return Container(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 16),
+                                                  child: Column(
+                                                    children: [
+                                                      const BottomSheetHandle(),
+                                                      SizedBox(
+                                                          height: SizeMg.height(
+                                                              32)),
+                                                      const Text('Your rating'),
+                                                      Ratings(
+                                                        vm: model,
+                                                        size: SizeMg.width(50),
+                                                        onChanged:
+                                                            (newValue) {},
+                                                      ),
+                                                      const Divider(),
+                                                      ListView.builder(
+                                                        shrinkWrap: true,
+                                                        physics:
+                                                            const NeverScrollableScrollPhysics(),
+                                                        itemCount: trip
+                                                            .categories?.length,
+                                                        itemBuilder:
+                                                            (BuildContext
+                                                                    context,
+                                                                int index) {
+                                                          return Theme(
+                                                            data: Theme.of(
+                                                                    context)
+                                                                .copyWith(
+                                                                    dividerColor:
+                                                                        Colors
+                                                                            .transparent),
+                                                            child:
+                                                                ExpansionTile(
+                                                              textColor:
+                                                                  Colors.black,
+                                                              title: Text(
+                                                                trip
+                                                                    .categories![
+                                                                        index]
+                                                                    .name!,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize:
+                                                                      SizeMg.text(
+                                                                          16),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                ),
+                                                              ),
+                                                              children: [
+                                                                wrapServicesWidget(
+                                                                    model
+                                                                        .options
+                                                                        .where((element) =>
+                                                                            element.ratingCategoryReference ==
+                                                                            trip.categories![index].reference)
+                                                                        .toList(),
+                                                                    model),
+                                                              ],
+                                                            ),
+                                                          );
+                                                        },
+                                                      ),
+                                                      const SizedBox(
+                                                          height: 151),
+                                                      Align(
+                                                        alignment: Alignment
+                                                            .bottomCenter,
+                                                        child: SizedBox(
+                                                          width:
+                                                              double.infinity,
+                                                          child: TextButton(
+                                                            style: TextButton
+                                                                .styleFrom(
+                                                              backgroundColor:
+                                                                  btnGreen,
+                                                              primary:
+                                                                  Colors.black,
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .symmetric(
+                                                                      vertical:
+                                                                          16),
+                                                              textStyle:
+                                                                  const TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700,
+                                                                fontStyle:
+                                                                    FontStyle
+                                                                        .normal,
+                                                              ),
+                                                              elevation: 0.0,
+                                                            ),
+                                                            onPressed: () =>
+                                                                Navigator.pop(
+                                                                    context),
+                                                            child: const Text(
+                                                                'Done'),
                                                           ),
                                                         ),
-                                                        children: [
-                                                          wrapServicesWidget(
-                                                              model.options
-                                                                  .where((element) =>
-                                                                      element
-                                                                          .ratingCategoryReference ==
-                                                                      trip
-                                                                          .categories![
-                                                                              index]
-                                                                          .reference)
-                                                                  .toList(),
-                                                              model),
-                                                        ],
                                                       ),
-                                                    );
-                                                  },
-                                                ),
-                                                const SizedBox(height: 151),
-                                                Align(
-                                                  alignment:
-                                                      Alignment.bottomCenter,
-                                                  child: SizedBox(
-                                                    width: double.infinity,
-                                                    child: TextButton(
-                                                      style:
-                                                          TextButton.styleFrom(
-                                                        backgroundColor:
-                                                            btnGreen,
-                                                        primary: Colors.black,
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                vertical: 16),
-                                                        textStyle:
-                                                            const TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          fontStyle:
-                                                              FontStyle.normal,
-                                                        ),
-                                                        elevation: 0.0,
-                                                      ),
-                                                      onPressed: () =>
-                                                          Navigator.pop(
-                                                              context),
-                                                      child: const Text('Done'),
-                                                    ),
+                                                      const SizedBox(
+                                                          height: 40),
+                                                    ],
                                                   ),
-                                                ),
-                                                const SizedBox(height: 40),
-                                              ],
-                                            ),
-                                          ));
+                                                );
+                                              }));
                                     },
                                     child: Row(
                                       mainAxisAlignment:
