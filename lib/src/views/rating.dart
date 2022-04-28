@@ -28,10 +28,10 @@ class RateTrip extends StatelessWidget {
         ),
         label: Text(
           option.name!,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w400,
-            fontSize: SizeMg.text(12),
+            fontSize: 12,
           ),
         ),
         backgroundColor:
@@ -87,12 +87,12 @@ class RateTrip extends StatelessWidget {
                     padding: EdgeInsets.only(right: SizeMg.width(20)),
                     child: GestureDetector(
                       onTap: () => Navigator.pop(context),
-                      child: Text(
+                      child: const Text(
                         'Skip',
                         style: TextStyle(
                             color: black,
                             fontWeight: FontWeight.w500,
-                            fontSize: SizeMg.text(16)),
+                            fontSize: 16),
                       ),
                     ),
                   ),
@@ -136,11 +136,11 @@ class RateTrip extends StatelessWidget {
                                           SizedBox(height: SizeMg.height(44)),
                                           DetailsTile(widget: this),
                                           SizedBox(height: SizeMg.height(25)),
-                                          Text(
+                                          const Text(
                                             "Thanks for your feedback",
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                                fontSize: SizeMg.text(18),
+                                                fontSize: 18,
                                                 fontWeight: FontWeight.w700),
                                           ),
                                           const SizedBox(height: 12),
@@ -151,9 +151,9 @@ class RateTrip extends StatelessWidget {
                                                         4)
                                                 ? "We are glad you had a pleasant experience. Your feedback will help us improve our service. Thank you for riding with Shuttlers."
                                                 : "We are really sorry you had an unpleasant experience. Your feedback will help us improve our service. Thank you for riding with Shuttlers.",
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontWeight: FontWeight.w400,
-                                              fontSize: SizeMg.text(14),
+                                              fontSize: 14,
                                             ),
                                           ),
                                           SizedBox(height: SizeMg.height(36)),
@@ -360,10 +360,8 @@ class RateTrip extends StatelessWidget {
                                                                         index]
                                                                     .name!,
                                                                 style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      SizeMg.text(
-                                                                          16),
+                                                                    const TextStyle(
+                                                                  fontSize: 16,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w400,
@@ -605,10 +603,9 @@ class DetailsTile extends StatelessWidget {
                   ),
                   placeholder: (context, url) =>
                       const CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => Icon(
-                    Icons.bus_alert,
-                    color: darkGreen,
-                    size: SizeMg.width(40),
+                  errorWidget: (context, url, error) => Image(
+                    image: AssetImage(
+                        widget.trip.settings?.driverFallbackAvatar ?? ''),
                   ),
                 ),
               ),
@@ -631,10 +628,15 @@ class DetailsTile extends StatelessWidget {
                   ),
                   placeholder: (context, url) =>
                       const CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => Icon(
-                    Icons.person,
-                    color: darkGreen,
-                    size: SizeMg.width(40),
+                  errorWidget: (context, url, error) => CircleAvatar(
+                    radius: SizeMg.radius(22),
+                    backgroundColor: const Color(0xFFEDFDF5),
+                    child: Image(
+                      image: AssetImage(
+                          widget.trip.settings?.userFallbackAvatar ?? ''),
+                      width: SizeMg.width(14),
+                      height: SizeMg.height(18),
+                    ),
                   ),
                 ),
               ),
@@ -647,15 +649,12 @@ class DetailsTile extends StatelessWidget {
           children: [
             Text(
               widget.trip.settings!.driverName!,
-              style: TextStyle(
-                  fontSize: SizeMg.text(12),
-                  color: black,
-                  fontWeight: FontWeight.w400),
+              style: const TextStyle(
+                  fontSize: 12, color: black, fontWeight: FontWeight.w400),
             ),
             Text(
               '${widget.trip.settings?.vehicleName ?? ''} • ${widget.trip.settings?.vehicleNumber ?? ''}',
-              style: TextStyle(
-                  fontSize: SizeMg.text(12), fontWeight: FontWeight.w400),
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
             )
           ],
         )
