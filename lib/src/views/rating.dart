@@ -145,10 +145,10 @@ class RateTrip extends StatelessWidget {
                                           ),
                                           const SizedBox(height: 12),
                                           Text(
-                                            model.starRating! >=
+                                            model.starRating! >
                                                     (model.trip.serviceSettings
                                                             ?.threshold ??
-                                                        4)
+                                                        3)
                                                 ? "We are glad you had a pleasant experience. Your feedback will help us improve our service. Thank you for riding with Shuttlers."
                                                 : "We are really sorry you had an unpleasant experience. Your feedback will help us improve our service. Thank you for riding with Shuttlers.",
                                             style: const TextStyle(
