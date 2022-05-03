@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:rate_trip/src/service/api/api.dart';
 import 'package:rate_trip/src/service/image/image.dart';
 import 'package:rate_trip/src/service/rating/rating.dart';
+import '../model/images.dart';
 import '../model/model.dart';
 import 'package:path/path.dart' as path;
 
@@ -150,6 +151,11 @@ class RatingVm extends ChangeNotifier {
   Future<void> rateTrip() async {
     setState(RatingState.loading);
     try {
+      ImageUpload? imagesUploaded =
+          await ratingService.uploadImages(files: _images);
+      if (imagesUploaded != null) {
+        rating.images = imagesUploaded.images;
+      }
       var response = await ratingService.rateTrip(rating);
       if (response is Response) {
         setState(RatingState.loaded);

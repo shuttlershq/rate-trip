@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import '../../rate_trip.dart';
 
 class Rating {
@@ -7,7 +5,7 @@ class Rating {
   int? value;
   List<RatingCategoryOptions?> feedbackOptions;
   String? comment;
-  List<File>? images;
+  List<String>? images;
 
   Rating({
     this.settings,
@@ -28,7 +26,7 @@ class Rating {
     data['star'] = value;
     data['details'] = comment;
     data['parameters'] = settings?.metadata;
-    data['media'] = images?.map((e) => e.path).toList();
+    data['media'] = images;
     return data;
   }
 }

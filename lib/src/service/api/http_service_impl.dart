@@ -71,7 +71,7 @@ class HttpService implements HttpServiceContract {
     String route, {
     body,
     bool useHeaders = true,
-    List<int> successStatusCodes = const [200, 201],
+    List<int> successStatusCodes = const [200, 201, 202],
   }) async {
     Response response;
 
