@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../model/model.dart';
 import '../utils/colors.dart';
-import '../utils/size_manager.dart';
 import '../utils/utils.dart';
 import '../viewmodels/rating_vm.dart';
 import '../widgets/bottom_sheet.dart';
@@ -56,14 +54,6 @@ class RateTrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(
-        BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width,
-            maxHeight: MediaQuery.of(context).size.height),
-        designSize: const Size(375, 812),
-        context: context,
-        minTextAdapt: true,
-        orientation: Orientation.portrait);
     return GestureDetector(
       onTap: () => Util.offKeyboard(context),
       child: BaseView<RatingVm>(
@@ -84,7 +74,7 @@ class RateTrip extends StatelessWidget {
                 automaticallyImplyLeading: false,
                 actions: [
                   Padding(
-                    padding: EdgeInsets.only(right: SizeMg.width(20)),
+                    padding: const EdgeInsets.only(right: 20),
                     child: GestureDetector(
                       onTap: () => Navigator.pop(context),
                       child: const Text(
@@ -100,8 +90,7 @@ class RateTrip extends StatelessWidget {
               ),
               bottomNavigationBar: SafeArea(
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      SizeMg.width(20), 0, SizeMg.width(20), SizeMg.height(20)),
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                   child: SizedBox(
                     width: double.infinity,
                     child: TextButton(
@@ -128,14 +117,14 @@ class RateTrip extends StatelessWidget {
                                 CustomBottomSheet.showBottomSheet(
                                     context,
                                     Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: SizeMg.width(20)),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
                                       child: Column(
                                         children: [
                                           const BottomSheetHandle(),
-                                          SizedBox(height: SizeMg.height(44)),
+                                          const SizedBox(height: 44),
                                           DetailsTile(widget: this),
-                                          SizedBox(height: SizeMg.height(25)),
+                                          const SizedBox(height: 25),
                                           const Text(
                                             "Thanks for your feedback",
                                             textAlign: TextAlign.center,
@@ -156,7 +145,7 @@ class RateTrip extends StatelessWidget {
                                               fontSize: 14,
                                             ),
                                           ),
-                                          SizedBox(height: SizeMg.height(36)),
+                                          const SizedBox(height: 36),
                                           Align(
                                             alignment: Alignment.bottomCenter,
                                             child: SizedBox(
@@ -166,7 +155,7 @@ class RateTrip extends StatelessWidget {
                                                   backgroundColor: btnGreen,
                                                   primary: Colors.black,
                                                   padding: const EdgeInsets
-                                                      .symmetric(vertical: 16),
+                                                      .symmetric(vertical: 8),
                                                   textStyle: const TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 16,
@@ -225,10 +214,8 @@ class RateTrip extends StatelessWidget {
                 child: SafeArea(
                   bottom: false,
                   child: Padding(
-                    padding: EdgeInsets.only(
-                        bottom: SizeMg.height(40),
-                        left: SizeMg.width(20),
-                        right: SizeMg.width(20)),
+                    padding:
+                        const EdgeInsets.only(bottom: 40, left: 20, right: 20),
                     child: Column(
                       children: [
                         const Text(
@@ -255,7 +242,7 @@ class RateTrip extends StatelessWidget {
                         const SizedBox(height: 20),
                         Ratings(
                           vm: model,
-                          size: SizeMg.width(50),
+                          size: 50,
                           onChanged: (newValue) {
                             if (newValue >=
                                 (model.trip.serviceSettings?.threshold ?? 4)) {
@@ -322,13 +309,12 @@ class RateTrip extends StatelessWidget {
                                                   child: Column(
                                                     children: [
                                                       const BottomSheetHandle(),
-                                                      SizedBox(
-                                                          height: SizeMg.height(
-                                                              32)),
+                                                      const SizedBox(
+                                                          height: 32),
                                                       const Text('Your rating'),
                                                       Ratings(
                                                         vm: model,
-                                                        size: SizeMg.width(50),
+                                                        size: 50,
                                                         onChanged:
                                                             (newValue) {},
                                                       ),
@@ -580,30 +566,18 @@ class DetailsTile extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-          width: SizeMg.width(65),
-          height: SizeMg.height(40),
+          width: 65,
+          height: 40,
           child: Stack(
             children: [
               Positioned(
                 right: 0,
                 top: 0,
                 bottom: 0,
-                child: CachedNetworkImage(
-                  imageUrl: widget.trip.settings?.driverAvatar ?? '',
-                  imageBuilder: (context, imageProvider) => Container(
-                    width: SizeMg.width(40),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.grey[200]!),
-                      image: DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  placeholder: (context, url) =>
-                      const CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => Image(
+                child: CircleAvatar(
+                  radius: 20,
+                  backgroundColor: const Color(0xFFEDFDF5),
+                  child: Image(
                     image: AssetImage(
                         widget.trip.settings?.driverFallbackAvatar ?? ''),
                   ),
@@ -614,9 +588,9 @@ class DetailsTile extends StatelessWidget {
                 top: 0,
                 bottom: 0,
                 child: CachedNetworkImage(
-                  imageUrl: widget.trip.settings?.userAvatar ?? '',
+                  imageUrl: widget.trip.settings?.driverAvatar ?? '',
                   imageBuilder: (context, imageProvider) => Container(
-                    width: SizeMg.width(40),
+                    width: 40,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(color: Colors.grey[200]!),
@@ -629,13 +603,13 @@ class DetailsTile extends StatelessWidget {
                   placeholder: (context, url) =>
                       const CircularProgressIndicator(),
                   errorWidget: (context, url, error) => CircleAvatar(
-                    radius: SizeMg.radius(22),
+                    radius: 22,
                     backgroundColor: const Color(0xFFEDFDF5),
                     child: Image(
                       image: AssetImage(
                           widget.trip.settings?.userFallbackAvatar ?? ''),
-                      width: SizeMg.width(14),
-                      height: SizeMg.height(18),
+                      width: 14,
+                      height: 18,
                     ),
                   ),
                 ),
@@ -643,7 +617,7 @@ class DetailsTile extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(width: SizeMg.width(11)),
+        const SizedBox(width: 11),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -672,11 +646,9 @@ class BottomSheetHandle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        width: SizeMg.width(48),
-        height: SizeMg.height(4),
-        margin: EdgeInsets.only(
-          top: SizeMg.padV(8),
-        ),
+        width: 48,
+        height: 4,
+        margin: const EdgeInsets.only(top: 8),
         decoration: const BoxDecoration(
           color: Color(0xFFEFF2F7),
           borderRadius: BorderRadius.all(

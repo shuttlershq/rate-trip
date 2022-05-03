@@ -50,14 +50,11 @@ class _ExampleHomeState extends State<ExampleHome> {
     token:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mzg2LCJjb3Jwb3JhdGVfaWQiOjEsImZuYW1lIjoiRGFvZHUiLCJsbmFtZSI6IkFqaXQiLCJlbWFpbCI6ImRhb2R1YWppdC10ZXN0QGdtYWlsLmNvbSIsInBob25lIjoiMDkwNTIyMjI4NTYiLCJwYXNzd29yZCI6IiQyYSQxMCQyNExHN2VQRmdnRG90VGY1RXVBWS5ldHVldDk3T2UwZ2g4RTdQMHBzcGdsa2I2R0NLNU94RyIsImFjdGl2ZSI6IjEiLCJhdmF0YXIiOiJodHRwczovL3NodXR0bGVycy1hdmF0YXJzLnMzLnVzLWVhc3QtMi5hbWF6b25hd3MuY29tL3VzZXItMzg2LWJuWGJNNWdEekUuanBlZyIsImNvZGUiOiJhOWJmODQ4MC00MDY4LTExZWMtOThhYy00YmI0YTM4NDFmMDMtMzg2IiwiY3JlYXRlZF9hdCI6IjIwMTgtMDYtMDlUMTU6MjY6MTguMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDIyLTAzLTE2VDA3OjIxOjMzLjAwMFoiLCJnZW5kZXIiOiJtYWxlIiwiZG9iIjpudWxsLCJjYXJfb3duZXIiOiIwIiwibmZjX2lkIjoiMGE1Y2JiNjAtMmQ4Yy00YzM5LTg2MzktNTYxNzBlOGU3YWM1Iiwic3RhZmZfaWQiOm51bGwsImNsaWVudF9pZCI6bnVsbCwibG9jYXRpb24iOm51bGwsInZlcmlmaWVkX2F0IjpudWxsLCJjaXR5X2lkIjpudWxsLCJsb2dpbl9yZW1vdGVfYWRkcmVzcyI6IjE3Mi4yMC40Ni4yOSIsImxvZ2luX2RhdGVfdGltZSI6IjIwMjItMDMtMTZUMDA6MDA6MDAuMDAwWiIsImxvZ2luX2lzX3N1Y2Nlc3NmdWwiOjEsImJsb2NrZWRfcmVhc29uIjpudWxsLCJpc19ibG9ja2VkIjowLCJibG9ja2VkX2F0IjpudWxsLCJzaWduX3VwX3NvdXJjZSI6Imd1ZXN0X21vZGUiLCJjb3VudHJ5X2NvZGUiOiJORyIsInBob25lX3ZlcmlmaWVkX2F0IjpudWxsLCJ1c2VyVHlwZSI6bnVsbCwiaWF0IjoxNjQ3NDMzNzk0LCJleHAiOjE2Nzg5Njk3OTR9.a3AQVUcsS2FwNvFqEn5TBgggnDvl3QeDkKdQwxiYi70',
     settings: Settings(
-        userFallbackAvatar: 'assets/images/user.png',
         driverFallbackAvatar: 'assets/images/bus_icon.png',
         settingId: 'fdc3f58d-ddfe-41fa-a344-873f0c56d768',
         driverAvatar:
             "https://shuttlers-avatars.s3.us-east-2.amazonaws.com/user-386-bnXbM5gDzE.jpeg",
         driverName: "Mufasa Bigson",
-        userAvatar:
-            "https://shuttlers-avatars.s3.us-east-2.amazonaws.com/user-386-bnXbM5gDzE.jpeg",
         vehicleName: "Toyota Coaster Bus",
         vehicleNumber: "S21",
         metadata: {
