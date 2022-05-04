@@ -578,8 +578,7 @@ class DetailsTile extends StatelessWidget {
                   radius: 20,
                   backgroundColor: const Color(0xFFEDFDF5),
                   child: Image(
-                    image: AssetImage(
-                        widget.trip.settings?.driverFallbackAvatar ?? ''),
+                    image: AssetImage(widget.trip.settings!.busAvatar!),
                   ),
                 ),
               ),
@@ -607,7 +606,7 @@ class DetailsTile extends StatelessWidget {
                     backgroundColor: const Color(0xFFEDFDF5),
                     child: Image(
                       image: AssetImage(
-                          widget.trip.settings?.userFallbackAvatar ?? ''),
+                          widget.trip.settings?.driverFallbackAvatar ?? ''),
                       width: 14,
                       height: 18,
                     ),
