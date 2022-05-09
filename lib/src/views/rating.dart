@@ -483,9 +483,11 @@ class RateTrip extends StatelessWidget {
                                     );
                                   }
                                 } catch (e) {
+                                  print('error: $e');
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text(model.error!),
+                                      content:
+                                          Text(model.error ?? e.toString()),
                                       backgroundColor: Colors.red,
                                       duration: const Duration(seconds: 3),
                                     ),
