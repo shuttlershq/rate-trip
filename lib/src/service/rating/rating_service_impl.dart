@@ -43,7 +43,7 @@ class RatingService implements RatingServiceContract {
 
     try {
       var response = await httpService!.post(imageUri, body: formData);
-      images = ImageUpload.fromJson(response);
+      images = ImageUpload.fromJson(response.data);
     } catch (e) {
       if (kDebugMode) {
         print(e);

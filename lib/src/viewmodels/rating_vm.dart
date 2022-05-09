@@ -54,6 +54,13 @@ class RatingVm extends ChangeNotifier {
     notifyListeners();
   }
 
+  List<String> _uploadedImages = [];
+  List<String> get uploadedImages => _uploadedImages;
+  set uploadedImages(List<String> value) {
+    _uploadedImages = value;
+    notifyListeners();
+  }
+
   /// ! RATING CATEGORY OPTIONS;
   final List<RatingCategoryOptions> _options = [];
   List<RatingCategoryOptions> get options => _options;
@@ -94,7 +101,7 @@ class RatingVm extends ChangeNotifier {
       feedbackOptions: _issues.values.toList(),
       comment: _comment,
       value: _starRating,
-      images: [],
+      images: uploadedImages,
     );
   }
 
@@ -154,7 +161,7 @@ class RatingVm extends ChangeNotifier {
       ImageUpload? imagesUploaded =
           await ratingService.uploadImages(files: _images);
       if (imagesUploaded != null) {
-        rating.images = imagesUploaded.images;
+        uploadedImages = imagesUploaded.images!;
       }
       var response = await ratingService.rateTrip(rating);
       if (response is Response) {
