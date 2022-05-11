@@ -272,7 +272,7 @@ class RateTrip extends StatelessWidget {
                               if (model.starRating! <=
                                   (model.trip.serviceSettings?.threshold ?? 3))
                                 Text(
-                                  "please choose Up to ${model.trip.serviceSettings?.maxValue ?? 5} Issue",
+                                  "Please note that you can choose a maximum of ${model.trip.serviceSettings?.maxValue ?? 5} issues",
                                   style: const TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,
@@ -483,7 +483,6 @@ class RateTrip extends StatelessWidget {
                                     );
                                   }
                                 } catch (e) {
-                                  print('error: $e');
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content:
