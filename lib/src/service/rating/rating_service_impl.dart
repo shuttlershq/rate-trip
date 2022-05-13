@@ -32,7 +32,6 @@ class RatingService implements RatingServiceContract {
     for (var item in files) {
       MultipartFile file = await MultipartFile.fromFile(
         item.path,
-        filename: item.toString(),
       );
       multipartfiles.add(file);
     }
