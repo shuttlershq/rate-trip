@@ -161,7 +161,9 @@ class RatingVm extends ChangeNotifier {
       ImageUpload? imagesUploaded =
           await ratingService.uploadImages(files: _images);
       if (imagesUploaded != null) {
-        uploadedImages = imagesUploaded.images!;
+        uploadedImages = imagesUploaded.images!
+            .map((e) => e.split('.jpg').first + '.jpg')
+            .toList();
       }
       var response = await ratingService.rateTrip(rating);
       if (response is Response) {
