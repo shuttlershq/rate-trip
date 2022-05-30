@@ -2,10 +2,6 @@ import 'package:flutter/material.dart' hide showDatePicker;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rate_trip/rate_trip.dart';
 
-import '../../dater/sample.dart';
-
-import 'dater/delegate.dart';
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const Example());
@@ -43,9 +39,8 @@ class ExampleHome extends StatefulWidget {
 }
 
 class _ExampleHomeState extends State<ExampleHome> {
-  DateTime _dateTime = DateTime.now();
   Trip trip = Trip(
-    baseUrl: "https://api.develop.shuttlers.africa/rating",
+    baseUrl: "https://api.test.shuttlers.africa/rating",
     tripId: '23',
     token:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mzg2LCJjb3Jwb3JhdGVfaWQiOjEsImZuYW1lIjoiRGFvZHUiLCJsbmFtZSI6IkFqaXQiLCJlbWFpbCI6ImRhb2R1YWppdC10ZXN0QGdtYWlsLmNvbSIsInBob25lIjoiMDkwNTIyMjI4NTYiLCJwYXNzd29yZCI6IiQyYSQxMCQyNExHN2VQRmdnRG90VGY1RXVBWS5ldHVldDk3T2UwZ2g4RTdQMHBzcGdsa2I2R0NLNU94RyIsImFjdGl2ZSI6IjEiLCJhdmF0YXIiOiJodHRwczovL3NodXR0bGVycy1hdmF0YXJzLnMzLnVzLWVhc3QtMi5hbWF6b25hd3MuY29tL3VzZXItMzg2LWJuWGJNNWdEekUuanBlZyIsImNvZGUiOiJhOWJmODQ4MC00MDY4LTExZWMtOThhYy00YmI0YTM4NDFmMDMtMzg2IiwiY3JlYXRlZF9hdCI6IjIwMTgtMDYtMDlUMTU6MjY6MTguMDAwWiIsInVwZGF0ZWRfYXQiOiIyMDIyLTAzLTE2VDA3OjIxOjMzLjAwMFoiLCJnZW5kZXIiOiJtYWxlIiwiZG9iIjpudWxsLCJjYXJfb3duZXIiOiIwIiwibmZjX2lkIjoiMGE1Y2JiNjAtMmQ4Yy00YzM5LTg2MzktNTYxNzBlOGU3YWM1Iiwic3RhZmZfaWQiOm51bGwsImNsaWVudF9pZCI6bnVsbCwibG9jYXRpb24iOm51bGwsInZlcmlmaWVkX2F0IjpudWxsLCJjaXR5X2lkIjpudWxsLCJsb2dpbl9yZW1vdGVfYWRkcmVzcyI6IjE3Mi4yMC40Ni4yOSIsImxvZ2luX2RhdGVfdGltZSI6IjIwMjItMDMtMTZUMDA6MDA6MDAuMDAwWiIsImxvZ2luX2lzX3N1Y2Nlc3NmdWwiOjEsImJsb2NrZWRfcmVhc29uIjpudWxsLCJpc19ibG9ja2VkIjowLCJibG9ja2VkX2F0IjpudWxsLCJzaWduX3VwX3NvdXJjZSI6Imd1ZXN0X21vZGUiLCJjb3VudHJ5X2NvZGUiOiJORyIsInBob25lX3ZlcmlmaWVkX2F0IjpudWxsLCJ1c2VyVHlwZSI6bnVsbCwiaWF0IjoxNjQ3NDMzNzk0LCJleHAiOjE2Nzg5Njk3OTR9.a3AQVUcsS2FwNvFqEn5TBgggnDvl3QeDkKdQwxiYi70',
@@ -127,10 +122,18 @@ class _ExampleHomeState extends State<ExampleHome> {
       threshold: 3,
       name: 'some settings',
       reference: 'some-settings-reference',
-      serviceId: 'some-service-id',
+      serviceId: 'trip_rating_service',
       parameters: 'some parameters',
     ),
   );
+
+  _handleRateApp() async {
+    final RatingService ratingService = RatingService(
+      context: context,
+      trip: trip,
+    );
+    await ratingService.rate();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -144,56 +147,9 @@ class _ExampleHomeState extends State<ExampleHome> {
                 key: const Key('rate'),
                 style: TextButton.styleFrom(
                     backgroundColor: Colors.green, primary: Colors.white),
-                onPressed: () {
-                  showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime.now().add(
-                      const Duration(days: 30),
-                    ),
-                    cancelText: 'Cancel',
-                    confirmText: 'Select',
-                  );
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (ctx) {
-                        return RateTrip(trip: trip);
-                      },
-                      fullscreenDialog: true,
-                    ),
-                  );
-                },
+                onPressed: _handleRateApp,
                 child: const Text('Rate Us'),
               ),
-              TextButton(
-                  key: const Key('Date Picker'),
-                  style: TextButton.styleFrom(
-                      backgroundColor: Colors.green, primary: Colors.white),
-                  onPressed: () async {
-                    var res = await showDatePicker(
-                      context: context,
-                      initialDate: _dateTime,
-                      firstDate: DateTime.now(),
-                      lastDate: DateTime(2099),
-                      builder: (context, child) {
-                        return Localizations.override(
-                          context: context,
-                          delegates: const [
-                            CancelButtonLocalizationDelegate(),
-                          ],
-                          child: child,
-                        );
-                      },
-                    );
-                    if (res != null) {
-                      setState(() {
-                        _dateTime = res;
-                      });
-                    }
-                  },
-                  child: Text(_dateTime.toIso8601String())),
             ],
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../model/model.dart';
 import '../utils/colors.dart';
 import '../utils/utils.dart';
@@ -26,10 +27,11 @@ class RateTrip extends StatelessWidget {
         ),
         label: Text(
           option.name!,
-          style: const TextStyle(
+          style: GoogleFonts.heebo(
             color: Colors.black,
             fontWeight: FontWeight.w400,
             fontSize: 12,
+            height: 18 / 12,
           ),
         ),
         backgroundColor:
@@ -77,12 +79,14 @@ class RateTrip extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 20),
                     child: GestureDetector(
                       onTap: () => Navigator.pop(context),
-                      child: const Text(
+                      child: Text(
                         'Skip',
-                        style: TextStyle(
-                            color: black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16),
+                        style: GoogleFonts.heebo(
+                          color: black,
+                          fontWeight: FontWeight.w500,
+                          height: 24 / 16,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
@@ -100,7 +104,7 @@ class RateTrip extends StatelessWidget {
                             : const Color(0xFFC7D1CC),
                         primary: Colors.black,
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        textStyle: const TextStyle(
+                        textStyle: GoogleFonts.heebo(
                           color: Colors.black,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
@@ -125,12 +129,14 @@ class RateTrip extends StatelessWidget {
                                           const SizedBox(height: 44),
                                           DetailsTile(widget: this),
                                           const SizedBox(height: 25),
-                                          const Text(
+                                          Text(
                                             "Thanks for your feedback",
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w700),
+                                            style: GoogleFonts.heebo(
+                                              fontSize: 18,
+                                              height: 24 / 18,
+                                              fontWeight: FontWeight.w700,
+                                            ),
                                           ),
                                           const SizedBox(height: 12),
                                           Text(
@@ -140,9 +146,11 @@ class RateTrip extends StatelessWidget {
                                                         3)
                                                 ? "We are glad you had a pleasant experience. Your feedback will help us improve our service. Thank you for riding with Shuttlers."
                                                 : "We are really sorry you had an unpleasant experience. Your feedback will help us improve our service. Thank you for riding with Shuttlers.",
-                                            style: const TextStyle(
+                                            style: GoogleFonts.heebo(
                                               fontWeight: FontWeight.w400,
                                               fontSize: 14,
+                                              height: 24 / 14,
+                                              color: grey5,
                                             ),
                                           ),
                                           const SizedBox(height: 36),
@@ -156,7 +164,7 @@ class RateTrip extends StatelessWidget {
                                                   primary: Colors.black,
                                                   padding: const EdgeInsets
                                                       .symmetric(vertical: 8),
-                                                  textStyle: const TextStyle(
+                                                  textStyle: GoogleFonts.heebo(
                                                     color: Colors.black,
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.w700,
@@ -205,7 +213,18 @@ class RateTrip extends StatelessWidget {
                                     AlwaysStoppedAnimation(Colors.white),
                               ),
                             )
-                          : const Text('Send'),
+                          : Text(
+                              'Send',
+                              style: GoogleFonts.heebo(
+                                fontSize: 16,
+                                height: 24 / 16,
+                                color: (!model.canSend() ||
+                                        model.state == RatingState.loading)
+                                    ? Colors.white
+                                    : black,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                     ),
                   ),
                 ),
@@ -218,27 +237,40 @@ class RateTrip extends StatelessWidget {
                         const EdgeInsets.only(bottom: 40, left: 20, right: 20),
                     child: Column(
                       children: [
-                        const Text(
+                        Text(
                           "Thank You!",
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 26, fontWeight: FontWeight.bold),
+                          style: GoogleFonts.heebo(
+                            fontSize: 18,
+                            height: 24 / 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         const SizedBox(height: 16),
                         DetailsTile(widget: this),
                         const SizedBox(height: 41),
-                        const Text(
+                        Text(
                           "How was your trip?",
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 26, fontWeight: FontWeight.bold),
+                          style: GoogleFonts.heebo(
+                              fontSize: 18,
+                              color: black,
+                              height: 24 / 18,
+                              fontWeight: FontWeight.w700),
                         ),
                         const SizedBox(height: 16),
-                        const Text(
+                        SizedBox(
+                          width: 249,
+                          child: Text(
                             'Your feedback will help us improve your experience.',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w300),
-                            textAlign: TextAlign.center),
+                            style: GoogleFonts.heebo(
+                                fontSize: 14,
+                                height: 21 / 18,
+                                color: grey5,
+                                fontWeight: FontWeight.w400),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
                         const SizedBox(height: 20),
                         Ratings(
                           vm: model,
@@ -259,10 +291,12 @@ class RateTrip extends StatelessWidget {
                                 const SizedBox(height: 28),
                               if (model.starRating! <=
                                   (model.trip.serviceSettings?.threshold ?? 3))
-                                const Text(
+                                Text(
                                   "Please select an Issue",
-                                  style: TextStyle(
+                                  style: GoogleFonts.heebo(
                                     fontSize: 14,
+                                    height: 21 / 14,
+                                    color: grey3,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
@@ -273,8 +307,10 @@ class RateTrip extends StatelessWidget {
                                   (model.trip.serviceSettings?.threshold ?? 3))
                                 Text(
                                   "Please note that you can choose a maximum of ${model.trip.serviceSettings?.maxValue ?? 5} issues",
-                                  style: const TextStyle(
+                                  style: GoogleFonts.heebo(
                                     fontSize: 12,
+                                    height: 21 / 12,
+                                    color: grey3,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
@@ -311,7 +347,17 @@ class RateTrip extends StatelessWidget {
                                                       const BottomSheetHandle(),
                                                       const SizedBox(
                                                           height: 32),
-                                                      const Text('Your rating'),
+                                                      Text(
+                                                        'Your rating',
+                                                        style:
+                                                            GoogleFonts.heebo(
+                                                                fontSize: 14,
+                                                                height: 21 / 18,
+                                                                color: grey5,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                      ),
                                                       Ratings(
                                                         vm: model,
                                                         size: 50,
@@ -346,8 +392,12 @@ class RateTrip extends StatelessWidget {
                                                                         index]
                                                                     .name!,
                                                                 style:
-                                                                    const TextStyle(
+                                                                    GoogleFonts
+                                                                        .heebo(
+                                                                  color: black,
                                                                   fontSize: 16,
+                                                                  height:
+                                                                      28 / 16,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w400,
@@ -388,7 +438,8 @@ class RateTrip extends StatelessWidget {
                                                                       vertical:
                                                                           16),
                                                               textStyle:
-                                                                  const TextStyle(
+                                                                  GoogleFonts
+                                                                      .heebo(
                                                                 color: Colors
                                                                     .black,
                                                                 fontSize: 16,
@@ -404,8 +455,18 @@ class RateTrip extends StatelessWidget {
                                                             onPressed: () =>
                                                                 Navigator.pop(
                                                                     context),
-                                                            child: const Text(
-                                                                'Done'),
+                                                            child: Text(
+                                                              'Done',
+                                                              style: GoogleFonts.heebo(
+                                                                  fontSize: 16,
+                                                                  height:
+                                                                      24 / 16,
+                                                                  color:
+                                                                      neutral900,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700),
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
@@ -419,15 +480,17 @@ class RateTrip extends StatelessWidget {
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
-                                      children: const [
+                                      children: [
                                         Text(
                                           "View more issues",
-                                          style: TextStyle(
-                                              color: darkGreen,
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w400),
+                                          style: GoogleFonts.heebo(
+                                            color: darkGreen,
+                                            fontSize: 13,
+                                            height: 21 / 13,
+                                            fontWeight: FontWeight.w400,
+                                          ),
                                         ),
-                                        Icon(
+                                        const Icon(
                                           Icons.arrow_forward_ios,
                                           color: darkGreen,
                                           size: 11,
@@ -441,10 +504,21 @@ class RateTrip extends StatelessWidget {
                           onChanged: (v) {
                             model.comment = v;
                           },
+                          style: GoogleFonts.heebo(
+                            color: black,
+                            fontSize: 14,
+                            height: 20 / 14,
+                            fontWeight: FontWeight.w400,
+                          ),
                           decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.all(16),
                             hintText: "Enter message here",
-                            hintStyle:
-                                const TextStyle(fontSize: 16.0, color: black),
+                            hintStyle: GoogleFonts.heebo(
+                              fontSize: 12,
+                              height: 20 / 12,
+                              fontWeight: FontWeight.w500,
+                              color: grey6,
+                            ),
                             fillColor: Colors.white,
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
@@ -494,10 +568,11 @@ class RateTrip extends StatelessWidget {
                                 }
                               },
                               child: Container(
-                                decoration: const BoxDecoration(
-                                  color: grey,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8)),
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color(0xFFE5E9F2).withOpacity(0.62),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(8)),
                                 ),
                                 height: 32,
                                 width: 32,
@@ -509,15 +584,36 @@ class RateTrip extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 12),
-                            const Text(
-                                'Upload supporting media (picture)\nMax. of 5 MB'),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Upload supporting media (picture)',
+                                  style: GoogleFonts.heebo(
+                                    color: grey5,
+                                    fontSize: 13,
+                                    height: 21 / 13,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                Text(
+                                  'Max. of 5 MB',
+                                  style: GoogleFonts.heebo(
+                                    color: grey5.withOpacity(0.62),
+                                    fontSize: 11,
+                                    height: 18 / 11,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                         if (model.images.isNotEmpty)
                           Column(
                             children: [
                               const SizedBox(height: 16),
-                              const LineSeparator(color: Colors.grey),
+                              const LineSeparator(color: Color(0xFFE5E9F2)),
                               const SizedBox(height: 22),
                               ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
@@ -535,7 +631,15 @@ class RateTrip extends StatelessWidget {
                                         color: Colors.red,
                                       ),
                                     ),
-                                    title: Text(file.path.split('/').last),
+                                    title: Text(
+                                      file.path.split('/').last,
+                                      style: GoogleFonts.heebo(
+                                        color: grey5,
+                                        fontSize: 13,
+                                        height: 21 / 13,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
                                   );
                                 },
                               )
@@ -623,12 +727,21 @@ class DetailsTile extends StatelessWidget {
           children: [
             Text(
               widget.trip.settings!.driverName!,
-              style: const TextStyle(
-                  fontSize: 12, color: black, fontWeight: FontWeight.w400),
+              style: GoogleFonts.heebo(
+                fontSize: 12,
+                height: 20 / 12,
+                color: black,
+                fontWeight: FontWeight.w400,
+              ),
             ),
             Text(
               '${widget.trip.settings?.vehicleName ?? ''} • ${widget.trip.settings?.vehicleNumber ?? ''}',
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+              style: GoogleFonts.heebo(
+                fontSize: 10,
+                color: grey5,
+                height: 18 / 10,
+                fontWeight: FontWeight.w400,
+              ),
             )
           ],
         )
