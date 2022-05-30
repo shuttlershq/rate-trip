@@ -12,21 +12,16 @@ class Example extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(375, 812),
-      minTextAdapt: false,
-      builder: () => MaterialApp(
-        builder: (context, widget) {
-          //add this line
-          ScreenUtil.setContext(context);
-          return MediaQuery(
-            //Setting font does not change with system font size
-            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-            child: widget!,
-          );
-        },
-        home: const ExampleHome(),
-      ),
+    return MaterialApp(
+      builder: (context, widget) {
+        //add this line
+        return MediaQuery(
+          //Setting font does not change with system font size
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+          child: widget!,
+        );
+      },
+      home: const ExampleHome(),
     );
   }
 }

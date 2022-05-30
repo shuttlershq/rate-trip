@@ -114,8 +114,8 @@ class RateTrip extends StatelessWidget {
                           model.state == RatingState.loading)
                       ? null
                       : () async {
-                          // await model.rateTrip();
-                          if (model.state != RatingState.loaded) {
+                          await model.rateTrip();
+                          if (model.state == RatingState.loaded) {
                             CustomBottomSheet.showBottomSheet(
                                 context,
                                 Container(
