@@ -70,9 +70,10 @@ class RateTrip extends StatelessWidget {
           },
           builder: (context, model, _) {
             return Scaffold(
+              backgroundColor: Colors.white,
               appBar: AppBar(
                 elevation: 0,
-                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                backgroundColor: Colors.white,
                 automaticallyImplyLeading: false,
                 actions: [
                   Padding(
@@ -92,142 +93,135 @@ class RateTrip extends StatelessWidget {
                   ),
                 ],
               ),
-              bottomNavigationBar: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: model.canSend()
-                            ? btnGreen
-                            : const Color(0xFFC7D1CC),
-                        primary: Colors.black,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        textStyle: GoogleFonts.heebo(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          fontStyle: FontStyle.normal,
-                        ),
-                        elevation: 0.0,
-                      ),
-                      onPressed: (!model.canSend() ||
-                              model.state == RatingState.loading)
-                          ? null
-                          : () async {
-                              await model.rateTrip();
-                              if (model.state == RatingState.loaded) {
-                                CustomBottomSheet.showBottomSheet(
-                                    context,
-                                    Container(
-                                      color: Colors.white,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20),
-                                      child: Column(
-                                        children: [
-                                          const BottomSheetHandle(),
-                                          const SizedBox(height: 44),
-                                          DetailsTile(widget: this),
-                                          const SizedBox(height: 25),
-                                          Text(
-                                            "Thanks for your feedback",
-                                            textAlign: TextAlign.center,
-                                            style: GoogleFonts.heebo(
-                                              fontSize: 18,
-                                              height: 24 / 18,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 12),
-                                          Text(
-                                            model.starRating! >
-                                                    (model.trip.serviceSettings
-                                                            ?.threshold ??
-                                                        3)
-                                                ? "We are glad you had a pleasant experience. Your feedback will help us improve our service. Thank you for riding with Shuttlers."
-                                                : "We are really sorry you had an unpleasant experience. Your feedback will help us improve our service. Thank you for riding with Shuttlers.",
-                                            style: GoogleFonts.heebo(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14,
-                                              height: 24 / 14,
-                                              color: grey5,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 36),
-                                          Align(
-                                            alignment: Alignment.bottomCenter,
-                                            child: SizedBox(
-                                              width: double.infinity,
-                                              child: TextButton(
-                                                style: TextButton.styleFrom(
-                                                  backgroundColor: btnGreen,
-                                                  primary: Colors.black,
-                                                  padding: const EdgeInsets
-                                                      .symmetric(vertical: 8),
-                                                  textStyle: GoogleFonts.heebo(
-                                                    color: Colors.black,
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontStyle: FontStyle.normal,
-                                                  ),
-                                                  elevation: 0.0,
-                                                ),
-                                                onPressed: () =>
-                                                    Navigator.popUntil(
-                                                        context,
-                                                        (route) =>
-                                                            route.isFirst),
-                                                child: const Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 8.0),
-                                                  child: Text('Close'),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 40),
-                                        ],
-                                      ),
-                                    ),
-                                    heightfactor: 0.43596);
-                              }
-
-                              if (model.state == RatingState.error) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                        model.error ?? "Could not rate trip"),
-                                    backgroundColor: Colors.red,
-                                    duration: const Duration(seconds: 3),
-                                  ),
-                                );
-                              }
-                            },
-                      child: model.state == RatingState.loading
-                          ? const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor:
-                                    AlwaysStoppedAnimation(Colors.white),
-                              ),
-                            )
-                          : Text(
-                              'Send',
-                              style: GoogleFonts.heebo(
-                                fontSize: 16,
-                                height: 24 / 16,
-                                color: (!model.canSend() ||
-                                        model.state == RatingState.loading)
-                                    ? Colors.white
-                                    : black,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
+              bottomNavigationBar: Padding(
+                padding: EdgeInsets.fromLTRB(
+                    20, 0, 20, MediaQuery.of(context).padding.bottom),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor:
+                        model.canSend() ? btnGreen : const Color(0xFFC7D1CC),
+                    primary: Colors.black,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    textStyle: GoogleFonts.heebo(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      fontStyle: FontStyle.normal,
                     ),
+                    elevation: 0.0,
                   ),
+                  onPressed: (!model.canSend() ||
+                          model.state == RatingState.loading)
+                      ? null
+                      : () async {
+                          await model.rateTrip();
+                          if (model.state == RatingState.loaded) {
+                            CustomBottomSheet.showBottomSheet(
+                                context,
+                                Container(
+                                  color: Colors.white,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Column(
+                                    children: [
+                                      const BottomSheetHandle(),
+                                      const SizedBox(height: 44),
+                                      DetailsTile(widget: this),
+                                      const SizedBox(height: 25),
+                                      Text(
+                                        "Thanks for your feedback",
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.heebo(
+                                          fontSize: 18,
+                                          height: 24 / 18,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 12),
+                                      Text(
+                                        model.starRating! >
+                                                (model.trip.serviceSettings
+                                                        ?.threshold ??
+                                                    3)
+                                            ? "We are glad you had a pleasant experience. Your feedback will help us improve our service. Thank you for riding with Shuttlers."
+                                            : "We are really sorry you had an unpleasant experience. Your feedback will help us improve our service. Thank you for riding with Shuttlers.",
+                                        style: GoogleFonts.heebo(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14,
+                                          height: 24 / 14,
+                                          color: grey5,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 36),
+                                      Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: SizedBox(
+                                          width: double.infinity,
+                                          child: TextButton(
+                                            style: TextButton.styleFrom(
+                                              backgroundColor: btnGreen,
+                                              primary: Colors.black,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 8),
+                                              textStyle: GoogleFonts.heebo(
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700,
+                                                fontStyle: FontStyle.normal,
+                                              ),
+                                              elevation: 0.0,
+                                            ),
+                                            onPressed: () => Navigator.popUntil(
+                                                context,
+                                                (route) => route.isFirst),
+                                            child: const Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 8.0),
+                                              child: Text('Close'),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 40),
+                                    ],
+                                  ),
+                                ),
+                                heightfactor: 0.43596);
+                          }
+
+                          if (model.state == RatingState.error) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content:
+                                    Text(model.error ?? "Could not rate trip"),
+                                backgroundColor: Colors.red,
+                                duration: const Duration(seconds: 3),
+                              ),
+                            );
+                          }
+                        },
+                  child: model.state == RatingState.loading
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                          ),
+                        )
+                      : Text(
+                          'Send',
+                          style: GoogleFonts.heebo(
+                            fontSize: 16,
+                            height: 24 / 16,
+                            color: (!model.canSend() ||
+                                    model.state == RatingState.loading)
+                                ? Colors.white
+                                : black,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                 ),
               ),
               body: SingleChildScrollView(
