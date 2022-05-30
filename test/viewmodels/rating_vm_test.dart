@@ -164,6 +164,11 @@ void main() {
     test('Check passing options from trip model works correctly', () {
       var model = RatingVm(token: 'someToken');
       Trip trip = Trip(
+          serviceSettings: ServiceSettings(
+            threshold: 3,
+            minValue: 5,
+          ),
+          baseUrl: 'someUrl',
           token: 'someToken',
           tripId: '2',
           settings: Settings(
@@ -251,7 +256,16 @@ void main() {
         vehicleNumber: "S21",
       );
       // model.
-      Trip trip = Trip(settings: settings, token: 'someToken', tripId: '2');
+      Trip trip = Trip(
+        baseUrl: 'someUrl',
+        settings: settings,
+        token: 'someToken',
+        tripId: '2',
+        serviceSettings: ServiceSettings(
+          threshold: 3,
+          minValue: 5,
+        ),
+      );
       expect(trip.settings!.vehicleNumber, "S21");
     });
   });

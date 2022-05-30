@@ -7,6 +7,8 @@ class CustomBottomSheet {
         enableDrag: false,
         isDismissible: false,
         isScrollControlled: true,
+        // backgroundColor: Colors.white,
+        // useRootNavigator: true,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         elevation: 10,
         context: context,

@@ -119,7 +119,6 @@ class RateTrip extends StatelessWidget {
                             CustomBottomSheet.showBottomSheet(
                                 context,
                                 Container(
-                                  color: Colors.white,
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20),
                                   child: Column(
@@ -225,424 +224,408 @@ class RateTrip extends StatelessWidget {
                 ),
               ),
               body: SingleChildScrollView(
-                child: SafeArea(
-                  bottom: false,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(bottom: 40, left: 20, right: 20),
-                    child: Column(
-                      children: [
-                        Text(
-                          "Thank You!",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.heebo(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.only(bottom: 40, left: 20, right: 20),
+                  child: Column(
+                    children: [
+                      Text(
+                        "Thank You!",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.heebo(
+                          fontSize: 18,
+                          height: 24 / 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      DetailsTile(widget: this),
+                      const SizedBox(height: 41),
+                      Text(
+                        "How was your trip?",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.heebo(
                             fontSize: 18,
+                            color: black,
                             height: 24 / 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        DetailsTile(widget: this),
-                        const SizedBox(height: 41),
-                        Text(
-                          "How was your trip?",
-                          textAlign: TextAlign.center,
+                            fontWeight: FontWeight.w700),
+                      ),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        width: 249,
+                        child: Text(
+                          'Your feedback will help us improve your experience.',
                           style: GoogleFonts.heebo(
-                              fontSize: 18,
-                              color: black,
-                              height: 24 / 18,
-                              fontWeight: FontWeight.w700),
+                              fontSize: 14,
+                              height: 21 / 18,
+                              color: grey5,
+                              fontWeight: FontWeight.w400),
+                          textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: 16),
-                        SizedBox(
-                          width: 249,
-                          child: Text(
-                            'Your feedback will help us improve your experience.',
-                            style: GoogleFonts.heebo(
-                                fontSize: 14,
-                                height: 21 / 18,
-                                color: grey5,
-                                fontWeight: FontWeight.w400),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        Ratings(
-                          vm: model,
-                          size: 50,
-                          onChanged: (newValue) {
-                            if (newValue >=
-                                (model.trip.serviceSettings?.threshold ?? 4)) {
-                              model.clearIssues();
-                            }
-                            model.starRating = newValue;
-                          },
-                        ),
-                        if (model.starRating != null)
-                          Column(
-                            children: [
-                              if (model.starRating! <=
-                                  (model.trip.serviceSettings?.threshold ?? 3))
-                                const SizedBox(height: 28),
-                              if (model.starRating! <=
-                                  (model.trip.serviceSettings?.threshold ?? 3))
-                                Text(
-                                  "Please select an Issue",
-                                  style: GoogleFonts.heebo(
-                                    fontSize: 14,
-                                    height: 21 / 14,
-                                    color: grey3,
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                      ),
+                      const SizedBox(height: 20),
+                      Ratings(
+                        vm: model,
+                        size: 50,
+                        onChanged: (newValue) {
+                          if (newValue >=
+                              (model.trip.serviceSettings?.threshold ?? 4)) {
+                            model.clearIssues();
+                          }
+                          model.starRating = newValue;
+                        },
+                      ),
+                      if (model.starRating != null)
+                        Column(
+                          children: [
+                            if (model.starRating! <=
+                                (model.trip.serviceSettings?.threshold ?? 3))
+                              const SizedBox(height: 28),
+                            if (model.starRating! <=
+                                (model.trip.serviceSettings?.threshold ?? 3))
+                              Text(
+                                "Please select an Issue",
+                                style: GoogleFonts.heebo(
+                                  fontSize: 14,
+                                  height: 21 / 14,
+                                  color: grey3,
+                                  fontWeight: FontWeight.w400,
                                 ),
-                              if (model.starRating! <=
-                                  (model.trip.serviceSettings?.threshold ?? 3))
-                                const SizedBox(height: 4),
-                              if (model.starRating! <=
-                                  (model.trip.serviceSettings?.threshold ?? 3))
-                                Text(
-                                  "Please note that you can choose a maximum of ${model.trip.serviceSettings?.maxValue ?? 5} issues",
-                                  style: GoogleFonts.heebo(
-                                    fontSize: 12,
-                                    height: 21 / 12,
-                                    color: grey3,
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                              ),
+                            if (model.starRating! <=
+                                (model.trip.serviceSettings?.threshold ?? 3))
+                              const SizedBox(height: 4),
+                            if (model.starRating! <=
+                                (model.trip.serviceSettings?.threshold ?? 3))
+                              Text(
+                                "Please note that you can choose a maximum of ${model.trip.serviceSettings?.maxValue ?? 5} issues",
+                                style: GoogleFonts.heebo(
+                                  fontSize: 12,
+                                  height: 21 / 12,
+                                  color: grey3,
+                                  fontWeight: FontWeight.w400,
                                 ),
-                              if (model.starRating! <=
-                                  (model.trip.serviceSettings?.threshold ?? 3))
-                                const SizedBox(height: 8),
-                              if (model.starRating! <=
-                                  (model.trip.serviceSettings?.threshold ?? 3))
-                                wrapServicesWidget(
-                                    model.options.sublist(
-                                        0,
-                                        model.options.length > 5
-                                            ? 5
-                                            : model.options.length),
-                                    model),
-                              if (model.starRating! <=
-                                  (model.trip.serviceSettings?.threshold ?? 3))
-                                const SizedBox(height: 18),
-                              if (model.starRating! <=
-                                  (model.trip.serviceSettings?.threshold ?? 3))
-                                InkWell(
-                                    onTap: () {
-                                      CustomBottomSheet.showBottomSheet(
-                                          context,
-                                          BaseView<RatingVm>(
-                                              model: model,
-                                              builder: (context, model, _) {
-                                                return Container(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 16),
-                                                  child: Column(
-                                                    children: [
-                                                      const BottomSheetHandle(),
-                                                      const SizedBox(
-                                                          height: 32),
-                                                      Text(
-                                                        'Your rating',
-                                                        style:
-                                                            GoogleFonts.heebo(
-                                                                fontSize: 14,
-                                                                height: 21 / 18,
-                                                                color: grey5,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400),
-                                                      ),
-                                                      Ratings(
-                                                        vm: model,
-                                                        size: 50,
-                                                        onChanged:
-                                                            (newValue) {},
-                                                      ),
-                                                      const Divider(),
-                                                      ListView.builder(
-                                                        shrinkWrap: true,
-                                                        physics:
-                                                            const NeverScrollableScrollPhysics(),
-                                                        itemCount: trip
-                                                            .categories?.length,
-                                                        itemBuilder:
-                                                            (BuildContext
-                                                                    context,
-                                                                int index) {
-                                                          return Theme(
-                                                            data: Theme.of(
-                                                                    context)
-                                                                .copyWith(
-                                                                    dividerColor:
-                                                                        Colors
-                                                                            .transparent),
-                                                            child:
-                                                                ExpansionTile(
-                                                              textColor:
-                                                                  Colors.black,
-                                                              title: Text(
-                                                                trip
-                                                                    .categories![
-                                                                        index]
-                                                                    .name!,
-                                                                style:
-                                                                    GoogleFonts
-                                                                        .heebo(
-                                                                  color: black,
-                                                                  fontSize: 16,
-                                                                  height:
-                                                                      28 / 16,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                ),
-                                                              ),
-                                                              children: [
-                                                                wrapServicesWidget(
-                                                                    model
-                                                                        .options
-                                                                        .where((element) =>
-                                                                            element.ratingCategoryReference ==
-                                                                            trip.categories![index].reference)
-                                                                        .toList(),
-                                                                    model),
-                                                              ],
-                                                            ),
-                                                          );
-                                                        },
-                                                      ),
-                                                      const SizedBox(
-                                                          height: 151),
-                                                      Align(
-                                                        alignment: Alignment
-                                                            .bottomCenter,
-                                                        child: SizedBox(
-                                                          width:
-                                                              double.infinity,
-                                                          child: TextButton(
-                                                            style: TextButton
-                                                                .styleFrom(
-                                                              backgroundColor:
-                                                                  btnGreen,
-                                                              primary:
-                                                                  Colors.black,
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .symmetric(
-                                                                      vertical:
-                                                                          16),
-                                                              textStyle:
-                                                                  GoogleFonts
-                                                                      .heebo(
-                                                                color: Colors
-                                                                    .black,
+                              ),
+                            if (model.starRating! <=
+                                (model.trip.serviceSettings?.threshold ?? 3))
+                              const SizedBox(height: 8),
+                            if (model.starRating! <=
+                                (model.trip.serviceSettings?.threshold ?? 3))
+                              wrapServicesWidget(
+                                  model.options.sublist(
+                                      0,
+                                      model.options.length > 5
+                                          ? 5
+                                          : model.options.length),
+                                  model),
+                            if (model.starRating! <=
+                                (model.trip.serviceSettings?.threshold ?? 3))
+                              const SizedBox(height: 18),
+                            if (model.starRating! <=
+                                (model.trip.serviceSettings?.threshold ?? 3))
+                              InkWell(
+                                  onTap: () {
+                                    CustomBottomSheet.showBottomSheet(
+                                        context,
+                                        BaseView<RatingVm>(
+                                            model: model,
+                                            builder: (context, model, _) {
+                                              return Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 16),
+                                                child: Column(
+                                                  children: [
+                                                    const BottomSheetHandle(),
+                                                    const SizedBox(height: 32),
+                                                    Text(
+                                                      'Your rating',
+                                                      style: GoogleFonts.heebo(
+                                                          fontSize: 14,
+                                                          height: 21 / 18,
+                                                          color: grey5,
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                    Ratings(
+                                                      vm: model,
+                                                      size: 50,
+                                                      onChanged: (newValue) {},
+                                                    ),
+                                                    const Divider(),
+                                                    ListView.builder(
+                                                      shrinkWrap: true,
+                                                      physics:
+                                                          const NeverScrollableScrollPhysics(),
+                                                      itemCount: trip
+                                                          .categories?.length,
+                                                      itemBuilder:
+                                                          (BuildContext context,
+                                                              int index) {
+                                                        return Theme(
+                                                          data: Theme.of(
+                                                                  context)
+                                                              .copyWith(
+                                                                  dividerColor:
+                                                                      Colors
+                                                                          .transparent),
+                                                          child: ExpansionTile(
+                                                            textColor:
+                                                                Colors.black,
+                                                            title: Text(
+                                                              trip
+                                                                  .categories![
+                                                                      index]
+                                                                  .name!,
+                                                              style: GoogleFonts
+                                                                  .heebo(
+                                                                color: black,
                                                                 fontSize: 16,
+                                                                height: 28 / 16,
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .w700,
-                                                                fontStyle:
-                                                                    FontStyle
-                                                                        .normal,
+                                                                        .w400,
                                                               ),
-                                                              elevation: 0.0,
                                                             ),
-                                                            onPressed: () =>
-                                                                Navigator.pop(
-                                                                    context),
-                                                            child: Text(
-                                                              'Done',
-                                                              style: GoogleFonts.heebo(
-                                                                  fontSize: 16,
-                                                                  height:
-                                                                      24 / 16,
-                                                                  color:
-                                                                      neutral900,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w700),
+                                                            children: [
+                                                              wrapServicesWidget(
+                                                                  model.options
+                                                                      .where((element) =>
+                                                                          element
+                                                                              .ratingCategoryReference ==
+                                                                          trip.categories![index]
+                                                                              .reference)
+                                                                      .toList(),
+                                                                  model),
+                                                            ],
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                    const SizedBox(height: 151),
+                                                    Align(
+                                                      alignment: Alignment
+                                                          .bottomCenter,
+                                                      child: SizedBox(
+                                                        width: double.infinity,
+                                                        child: TextButton(
+                                                          style: TextButton
+                                                              .styleFrom(
+                                                            backgroundColor:
+                                                                btnGreen,
+                                                            primary:
+                                                                Colors.black,
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical:
+                                                                        16),
+                                                            textStyle:
+                                                                GoogleFonts
+                                                                    .heebo(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .normal,
                                                             ),
+                                                            elevation: 0.0,
+                                                          ),
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  context),
+                                                          child: Text(
+                                                            'Done',
+                                                            style: GoogleFonts.heebo(
+                                                                fontSize: 16,
+                                                                height: 24 / 16,
+                                                                color:
+                                                                    neutral900,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700),
                                                           ),
                                                         ),
                                                       ),
-                                                      const SizedBox(
-                                                          height: 40),
-                                                    ],
-                                                  ),
-                                                );
-                                              }));
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "View more issues",
-                                          style: GoogleFonts.heebo(
-                                            color: darkGreen,
-                                            fontSize: 13,
-                                            height: 21 / 13,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                        const Icon(
-                                          Icons.arrow_forward_ios,
+                                                    ),
+                                                    const SizedBox(height: 40),
+                                                  ],
+                                                ),
+                                              );
+                                            }));
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "View more issues",
+                                        style: GoogleFonts.heebo(
                                           color: darkGreen,
-                                          size: 11,
-                                        )
-                                      ],
-                                    )),
-                            ],
-                          ),
-                        const SizedBox(height: 36),
-                        TextField(
-                          onChanged: (v) {
-                            model.comment = v;
-                          },
-                          style: GoogleFonts.heebo(
-                            color: black,
-                            fontSize: 14,
-                            height: 20 / 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.all(16),
-                            hintText: "Enter message here",
-                            hintStyle: GoogleFonts.heebo(
-                              fontSize: 12,
-                              height: 20 / 12,
-                              fontWeight: FontWeight.w500,
-                              color: grey6,
-                            ),
-                            fillColor: Colors.white,
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Color(0xFFE5E9F2), width: 2.0),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Color(0xFFE5E9F2), width: 2.0),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            disabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Color(0xFFE5E9F2), width: 2.0),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                          ),
-                          maxLines: 5,
-                        ),
-                        const SizedBox(height: 32),
-                        Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () async {
-                                try {
-                                  var result = await model.getFileGallery(
-                                      context: context);
-                                  if (!result) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            'Uploaded file should be less than 5mb'),
-                                        backgroundColor: Colors.red,
-                                        duration: Duration(seconds: 3),
+                                          fontSize: 13,
+                                          height: 21 / 13,
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                       ),
-                                    );
-                                  }
-                                } catch (e) {
+                                      const Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: darkGreen,
+                                        size: 11,
+                                      )
+                                    ],
+                                  )),
+                          ],
+                        ),
+                      const SizedBox(height: 36),
+                      TextField(
+                        onChanged: (v) {
+                          model.comment = v;
+                        },
+                        style: GoogleFonts.heebo(
+                          color: black,
+                          fontSize: 14,
+                          height: 20 / 14,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.all(16),
+                          hintText: "Enter message here",
+                          hintStyle: GoogleFonts.heebo(
+                            fontSize: 12,
+                            height: 20 / 12,
+                            fontWeight: FontWeight.w500,
+                            color: grey6,
+                          ),
+                          fillColor: Colors.white,
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color(0xFFE5E9F2), width: 2.0),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color(0xFFE5E9F2), width: 2.0),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          disabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color(0xFFE5E9F2), width: 2.0),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                        maxLines: 5,
+                      ),
+                      const SizedBox(height: 32),
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () async {
+                              try {
+                                var result = await model.getFileGallery(
+                                    context: context);
+                                if (!result) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content:
-                                          Text(model.error ?? e.toString()),
+                                    const SnackBar(
+                                      content: Text(
+                                          'Uploaded file should be less than 5mb'),
                                       backgroundColor: Colors.red,
-                                      duration: const Duration(seconds: 3),
+                                      duration: Duration(seconds: 3),
                                     ),
                                   );
                                 }
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color:
-                                      const Color(0xFFE5E9F2).withOpacity(0.62),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(8)),
-                                ),
-                                height: 32,
-                                width: 32,
-                                alignment: Alignment.center,
-                                child: const Icon(
-                                  Icons.camera_alt,
-                                  size: 20,
-                                ),
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(model.error ?? e.toString()),
+                                    backgroundColor: Colors.red,
+                                    duration: const Duration(seconds: 3),
+                                  ),
+                                );
+                              }
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color:
+                                    const Color(0xFFE5E9F2).withOpacity(0.62),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(8)),
+                              ),
+                              height: 32,
+                              width: 32,
+                              alignment: Alignment.center,
+                              child: const Icon(
+                                Icons.camera_alt,
+                                size: 20,
                               ),
                             ),
-                            const SizedBox(width: 12),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Upload supporting media (picture)',
-                                  style: GoogleFonts.heebo(
-                                    color: grey5,
-                                    fontSize: 13,
-                                    height: 21 / 13,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                Text(
-                                  'Max. of 5 MB',
-                                  style: GoogleFonts.heebo(
-                                    color: grey5.withOpacity(0.62),
-                                    fontSize: 11,
-                                    height: 18 / 11,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        if (model.images.isNotEmpty)
+                          ),
+                          const SizedBox(width: 12),
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const SizedBox(height: 16),
-                              const LineSeparator(color: Color(0xFFE5E9F2)),
-                              const SizedBox(height: 22),
-                              ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: model.images.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  final file = model.images[index];
-                                  return ListTile(
-                                    contentPadding: EdgeInsets.zero,
-                                    leading: const Icon(Icons.image_rounded),
-                                    trailing: GestureDetector(
-                                      onTap: () => model.deleteImage(file),
-                                      child: const Icon(
-                                        Icons.close_rounded,
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                    title: Text(
-                                      file.path.split('/').last,
-                                      style: GoogleFonts.heebo(
-                                        color: grey5,
-                                        fontSize: 13,
-                                        height: 21 / 13,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  );
-                                },
-                              )
+                              Text(
+                                'Upload supporting media (picture)',
+                                style: GoogleFonts.heebo(
+                                  color: grey5,
+                                  fontSize: 13,
+                                  height: 21 / 13,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              Text(
+                                'Max. of 5 MB',
+                                style: GoogleFonts.heebo(
+                                  color: grey5.withOpacity(0.62),
+                                  fontSize: 11,
+                                  height: 18 / 11,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
                             ],
                           ),
-                        const SizedBox(height: 40),
-                      ],
-                    ),
+                        ],
+                      ),
+                      if (model.images.isNotEmpty)
+                        Column(
+                          children: [
+                            const SizedBox(height: 16),
+                            const LineSeparator(color: Color(0xFFE5E9F2)),
+                            const SizedBox(height: 22),
+                            ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: model.images.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final file = model.images[index];
+                                return ListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  leading: const Icon(Icons.image_rounded),
+                                  trailing: GestureDetector(
+                                    onTap: () => model.deleteImage(file),
+                                    child: const Icon(
+                                      Icons.close_rounded,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                  title: Text(
+                                    file.path.split('/').last,
+                                    style: GoogleFonts.heebo(
+                                      color: grey5,
+                                      fontSize: 13,
+                                      height: 21 / 13,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                );
+                              },
+                            )
+                          ],
+                        ),
+                      const SizedBox(height: 40),
+                    ],
                   ),
                 ),
               ),
