@@ -105,14 +105,29 @@ class RatingVm extends ChangeNotifier {
     );
   }
 
+  bool canPickIssues() {
+    if (_starRating == null || _starRating == 0) {
+      return false;
+    }
+
+    if (_starRating != null &&
+        _starRating! <= (_trip.serviceSettings?.threshold ?? 3)) {
+      return true;
+    }
+
+    return false;
+
+    // return (_issues.length < (trip.serviceSettings?.minValue ?? 1));
+  }
+
   bool canSend() {
     if (_starRating == null || _starRating == 0) {
       return false;
     }
-    if (((_comment == null || _comment == '') &&
-        _starRating! <= (trip.serviceSettings?.threshold ?? 3))) {
-      return false;
-    }
+    // if (((_comment == null || _comment == '') &&
+    //     _starRating! <= (trip.serviceSettings?.threshold ?? 3))) {
+    //   return false;
+    // }
     return (_starRating! > (trip.serviceSettings?.threshold ?? 3) &&
             _issues.isEmpty) ||
         (_issues.length <= (trip.serviceSettings?.maxValue ?? 5) &&

@@ -33,7 +33,7 @@ class _RatingsState extends State<Ratings> {
             child: Icon(
               Icons.star_rounded,
               key: Key("$i"),
-              color: Colors.amber,
+              color: const Color(0xFFFFDF1B),
               size: widget.size,
             ),
           ),

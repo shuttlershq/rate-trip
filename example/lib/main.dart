@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart' hide showDatePicker;
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/material.dart';
 import 'package:rate_trip/rate_trip.dart';
 
 void main() {

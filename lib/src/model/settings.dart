@@ -6,6 +6,7 @@ class Settings {
   String? vehicleName;
   String? vehicleNumber;
   String? driverFallbackAvatar;
+  String? routeCode;
   Map<String, dynamic>? metadata;
 
   Settings({
@@ -16,6 +17,7 @@ class Settings {
     this.vehicleName,
     this.vehicleNumber,
     this.metadata,
+    this.routeCode,
     required this.busAvatar,
   })  : assert(driverFallbackAvatar != null && driverFallbackAvatar != ''),
         assert(busAvatar != null && busAvatar != '');
