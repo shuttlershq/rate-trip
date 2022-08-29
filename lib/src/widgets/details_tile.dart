@@ -27,7 +27,7 @@ class DetailsTile extends StatelessWidget {
                 top: 0,
                 bottom: 0,
                 child: CachedNetworkImage(
-                  imageUrl: widget.trip.settings?.driverAvatar ?? '',
+                  imageUrl: widget.trip.settings.userAvatar ?? '',
                   imageBuilder: (context, imageProvider) => Container(
                     width: 56,
                     decoration: BoxDecoration(
@@ -44,8 +44,8 @@ class DetailsTile extends StatelessWidget {
                     radius: 28,
                     backgroundColor: const Color(0xFFEDFDF5),
                     child: Image(
-                      image: AssetImage(
-                          widget.trip.settings?.driverFallbackAvatar ?? ''),
+                      image:
+                          AssetImage(widget.trip.settings.userFallbackAvatar),
                       width: 20,
                       height: 24,
                     ),
@@ -57,7 +57,7 @@ class DetailsTile extends StatelessWidget {
                 top: 0,
                 bottom: -30,
                 child: Image(
-                  image: AssetImage(widget.trip.settings!.busAvatar!),
+                  image: AssetImage(widget.trip.settings.busAvatar),
                   width: 22,
                 ),
               ),
@@ -66,7 +66,7 @@ class DetailsTile extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         Text(
-          widget.trip.settings!.driverName!,
+          widget.trip.settings.driverName!,
           style: GoogleFonts.heebo(
             fontSize: 18,
             height: 24 / 18,
@@ -112,7 +112,7 @@ class DetailsTile extends StatelessWidget {
             ]),
             TableRow(children: [
               Text(
-                widget.trip.settings?.vehicleName ?? 'N/A',
+                widget.trip.settings.vehicleName ?? 'N/A',
                 style: GoogleFonts.heebo(
                   fontSize: 15,
                   height: 24 / 15,
@@ -122,7 +122,7 @@ class DetailsTile extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               Text(
-                widget.trip.settings?.vehicleNumber ?? 'N/A',
+                widget.trip.settings.vehicleNumber ?? 'N/A',
                 style: GoogleFonts.heebo(
                   fontSize: 15,
                   height: 24 / 15,
@@ -132,7 +132,7 @@ class DetailsTile extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               Text(
-                widget.trip.settings?.routeCode ?? 'N/A',
+                widget.trip.settings.routeCode ?? 'N/A',
                 style: GoogleFonts.heebo(
                   fontSize: 15,
                   height: 24 / 15,

@@ -26,11 +26,11 @@ class RateTrip extends StatelessWidget {
         model: RatingVm(trip: trip),
         onModelReady: (model) async {
           model.trip = trip;
-          trip.categories?.forEach((element) {
+          for (var element in trip.categories) {
             element.options?.forEach((element) {
               model.options.add(element);
             });
-          });
+          }
         },
         builder: (context, model, _) {
           return Scaffold(
@@ -103,8 +103,7 @@ class RateTrip extends StatelessWidget {
                                   size: 60,
                                   onChanged: (newValue) {
                                     if (newValue >=
-                                        (model.trip.serviceSettings
-                                                ?.threshold ??
+                                        (model.trip.serviceSettings.threshold ??
                                             4)) {
                                       model.clearIssues();
                                     }
@@ -156,6 +155,8 @@ class RateTrip extends StatelessWidget {
                               onChanged: (v) {
                                 model.comment = v;
                               },
+                              controller:
+                                  TextEditingController(text: model.comment),
                               maxLines: 2,
                               style: GoogleFonts.heebo(
                                 color: black,
@@ -244,7 +245,7 @@ class RateTrip extends StatelessWidget {
                                                                 (model
                                                                         .trip
                                                                         .serviceSettings
-                                                                        ?.threshold ??
+                                                                        .threshold ??
                                                                     3)
                                                             ? "We are glad you had a pleasant experience. Your feedback will help us improve our service. Thank you for riding with Shuttlers."
                                                             : "We are really sorry you had an unpleasant experience. Your feedback will help us improve our service. Thank you for riding with Shuttlers.",

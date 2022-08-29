@@ -112,7 +112,7 @@ class _IssueViewState extends State<IssueView> {
                           children: [
                             const SizedBox(height: 32),
                             Text(
-                              'You can choose up to ${model.trip.serviceSettings?.maxValue ?? 5} issues across all categories.',
+                              'You can choose up to ${model.trip.serviceSettings.maxValue ?? 5} issues across all categories.',
                               style: GoogleFonts.heebo(
                                   fontSize: 17,
                                   height: 24 / 17,
@@ -124,7 +124,7 @@ class _IssueViewState extends State<IssueView> {
                               shrinkWrap: true,
                               padding: EdgeInsets.zero,
                               physics: const NeverScrollableScrollPhysics(),
-                              itemCount: model.trip.categories?.length,
+                              itemCount: model.trip.categories.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return Theme(
                                   data: Theme.of(context).copyWith(
@@ -140,7 +140,7 @@ class _IssueViewState extends State<IssueView> {
                                     collapsedIconColor: const Color(0xFF444854),
                                     textColor: Colors.black,
                                     title: Text(
-                                      model.trip.categories![index].name!,
+                                      model.trip.categories[index].name!,
                                       style: GoogleFonts.heebo(
                                         color: black,
                                         fontSize: 18,
@@ -166,7 +166,7 @@ class _IssueViewState extends State<IssueView> {
                                               .where((element) =>
                                                   element
                                                       .ratingCategoryReference ==
-                                                  model.trip.categories![index]
+                                                  model.trip.categories[index]
                                                       .reference)
                                               .toList(),
                                           model),
@@ -305,7 +305,7 @@ class _IssueViewState extends State<IssueView> {
                                                                 .model
                                                                 .trip
                                                                 .serviceSettings
-                                                                ?.threshold ??
+                                                                .threshold ??
                                                             3)
                                                     ? "We are glad you had a pleasant experience. Your feedback will help us improve our service. Thank you for riding with Shuttlers."
                                                     : "We are really sorry you had an unpleasant experience. Your feedback will help us improve our service. Thank you for riding with Shuttlers.",
