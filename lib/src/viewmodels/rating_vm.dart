@@ -99,7 +99,7 @@ class RatingVm extends ChangeNotifier {
     return Rating(
       settings: trip.settings,
       feedbackOptions: _issues.values.toList(),
-      comment: _comment,
+      comment: _comment ?? '',
       value: _starRating,
       images: uploadedImages,
     );
@@ -173,23 +173,21 @@ class RatingVm extends ChangeNotifier {
   Future<void> rateTrip() async {
     setState(RatingState.loading);
     try {
-      ImageUpload? imagesUploaded =
-          await ratingService.uploadImages(files: _images);
-      if (imagesUploaded != null) {
-        uploadedImages = imagesUploaded.images!;
-      }
+      // ImageUpload? imagesUploaded =
+      //     await ratingService.uploadImages(files: _images);
+      // if (imagesUploaded != null) {
+      //   uploadedImages = imagesUploaded.images!;
+      // }
       var response = await ratingService.rateTrip(rating);
       if (response is Response) {
         setState(RatingState.loaded);
       } else {
-        setState(RatingState.error);
         errorMessage = response.toString();
-        notifyListeners();
+        setState(RatingState.error);
       }
     } catch (e) {
       errorMessage = e.toString();
       setState(RatingState.error);
-      notifyListeners();
     }
   }
 }
