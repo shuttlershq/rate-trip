@@ -130,9 +130,9 @@ class _IssueViewState extends State<IssueView> {
                                   data: Theme.of(context).copyWith(
                                       dividerColor: Colors.transparent),
                                   child: ExpansionTile(
-                                    leading: const Image(
+                                    leading: Image(
                                       image: AssetImage(
-                                          'assets/images/bus_icon.png'),
+                                          model.trip.settings.busAvatar),
                                       width: 20,
                                     ),
                                     tilePadding: EdgeInsets.zero,
