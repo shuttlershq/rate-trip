@@ -3,12 +3,12 @@ import 'service_settings.dart';
 import 'settings.dart';
 
 class Trip {
-  String? baseUrl;
-  String? token;
-  String? tripId;
-  Settings? settings;
-  ServiceSettings? serviceSettings;
-  List<RatingCategory>? categories;
+  String baseUrl;
+  String token;
+  String tripId;
+  Settings settings;
+  ServiceSettings serviceSettings;
+  List<RatingCategory> categories;
 
   Trip({
     required this.baseUrl,
@@ -17,9 +17,5 @@ class Trip {
     this.categories = const [],
     required this.tripId,
     required this.token,
-  })  : assert(baseUrl != null),
-        assert(settings != null),
-        assert(serviceSettings != null),
-        assert(tripId != null),
-        assert(token != null);
+  });
 }

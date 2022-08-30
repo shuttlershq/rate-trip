@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rate_trip/src/service/api/api.dart';
 import 'package:rate_trip/src/service/image/image.dart';
 import 'package:rate_trip/src/service/rating/rating.dart';
-import '../model/images.dart';
 import '../model/model.dart';
 import 'package:path/path.dart' as path;
 
@@ -21,21 +21,28 @@ class RatingVm extends ChangeNotifier {
   late HttpServiceContract httpService;
   late RatingServiceContract ratingService;
 
+  bool _disposed = false;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _disposed = true;
+  }
+
   RatingState _state = RatingState.initial;
   RatingState get state => _state;
   setState(RatingState value) {
     _state = value;
-    notifyListeners();
+    if (!_disposed && hasListeners) notifyListeners();
   }
 
   String? errorMessage;
   String? get error => errorMessage;
 
-  RatingVm({ImageServiceContract? imgService, required Trip trip}) {
+  RatingVm({required Trip trip}) {
     _trip = trip;
-    imageService = imgService ?? imageService;
-    httpService = HttpService(_trip.baseUrl!, apiDebugMode: true);
-    httpService.setToken(trip.token!);
+    httpService = HttpService(_trip.baseUrl, apiDebugMode: kDebugMode);
+    httpService.setToken(trip.token);
     ratingService = RatingService(httpService);
   }
 
@@ -43,7 +50,7 @@ class RatingVm extends ChangeNotifier {
   Trip get trip => _trip;
   set trip(Trip value) {
     _trip = value;
-    notifyListeners();
+    if (!_disposed && hasListeners) notifyListeners();
   }
 
   /// ! STAR RATING
@@ -51,14 +58,14 @@ class RatingVm extends ChangeNotifier {
   int? get starRating => _starRating;
   set starRating(int? v) {
     _starRating = v;
-    notifyListeners();
+    if (!_disposed && hasListeners) notifyListeners();
   }
 
   List<String> _uploadedImages = [];
   List<String> get uploadedImages => _uploadedImages;
   set uploadedImages(List<String> value) {
     _uploadedImages = value;
-    notifyListeners();
+    if (!_disposed && hasListeners) notifyListeners();
   }
 
   /// ! RATING CATEGORY OPTIONS;
@@ -66,32 +73,35 @@ class RatingVm extends ChangeNotifier {
   List<RatingCategoryOptions> get options => _options;
 
   /// ! COMMENT
-  String? _comment;
-  String? get comment => _comment;
-  set comment(String? v) {
+  String _comment = '';
+  String get comment => _comment;
+  set comment(String v) {
     _comment = v;
-    notifyListeners();
+    if (!_disposed && hasListeners) notifyListeners();
   }
+
+  /// ! CONTROLLER
+  TextEditingController commentField = TextEditingController();
 
   /// ! ISSUES CATEGORY OPTIONS
   Map<String, RatingCategoryOptions> _issues = {};
   Map<String, RatingCategoryOptions> get issues => _issues;
   void clearIssues() {
     _issues = {};
-    notifyListeners();
+    if (!_disposed && hasListeners) notifyListeners();
   }
 
   void addIssues(RatingCategoryOptions issue) {
     !_issues.containsKey(issue.reference!) &&
-            _issues.keys.length < (trip.serviceSettings?.maxValue ?? 5)
+            _issues.keys.length < (trip.serviceSettings.maxValue ?? 5)
         ? _issues.putIfAbsent(issue.reference!, () => issue)
         : _issues.remove(issue.reference);
-    notifyListeners();
+    if (!_disposed && hasListeners) notifyListeners();
   }
 
   void removeIssues(RatingCategoryOptions issue) {
     _issues.remove(issue.reference);
-    notifyListeners();
+    if (!_disposed && hasListeners) notifyListeners();
   }
 
   /// ! SEND RATING
@@ -99,25 +109,34 @@ class RatingVm extends ChangeNotifier {
     return Rating(
       settings: trip.settings,
       feedbackOptions: _issues.values.toList(),
-      comment: _comment,
+      comment: _comment.isEmpty ? ' ' : _comment,
       value: _starRating,
       images: uploadedImages,
     );
+  }
+
+  bool canPickIssues() {
+    if (_starRating == null || _starRating == 0) {
+      return false;
+    }
+
+    if (_starRating != null &&
+        _starRating! <= (_trip.serviceSettings.threshold ?? 3)) {
+      return true;
+    }
+
+    return false;
   }
 
   bool canSend() {
     if (_starRating == null || _starRating == 0) {
       return false;
     }
-    if (((_comment == null || _comment == '') &&
-        _starRating! <= (trip.serviceSettings?.threshold ?? 3))) {
-      return false;
-    }
-    return (_starRating! > (trip.serviceSettings?.threshold ?? 3) &&
+    return (_starRating! > (trip.serviceSettings.threshold ?? 3) &&
             _issues.isEmpty) ||
-        (_issues.length <= (trip.serviceSettings?.maxValue ?? 5) &&
-            _issues.length >= (trip.serviceSettings?.minValue ?? 1) &&
-            (_starRating! <= (trip.serviceSettings?.threshold ?? 3) &&
+        (_issues.length <= (trip.serviceSettings.maxValue ?? 5) &&
+            _issues.length >= (trip.serviceSettings.minValue ?? 1) &&
+            (_starRating! <= (trip.serviceSettings.threshold ?? 3) &&
                 _starRating! > 0));
   }
 
@@ -158,23 +177,16 @@ class RatingVm extends ChangeNotifier {
   Future<void> rateTrip() async {
     setState(RatingState.loading);
     try {
-      ImageUpload? imagesUploaded =
-          await ratingService.uploadImages(files: _images);
-      if (imagesUploaded != null) {
-        uploadedImages = imagesUploaded.images!;
-      }
       var response = await ratingService.rateTrip(rating);
       if (response is Response) {
         setState(RatingState.loaded);
       } else {
-        setState(RatingState.error);
         errorMessage = response.toString();
-        notifyListeners();
+        setState(RatingState.error);
       }
     } catch (e) {
       errorMessage = e.toString();
       setState(RatingState.error);
-      notifyListeners();
     }
   }
 }
