@@ -105,7 +105,7 @@ void main() {
         parameters: 'some parameters',
       ),
     );
-    model = RatingVm(imgService: imageService, trip: trip);
+    model = RatingVm(trip: trip);
     context = MockBuildContext();
 
     mockStorageFile = MockFile();

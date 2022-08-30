@@ -22,7 +22,7 @@ class _IssueViewState extends State<IssueView> {
   @override
   void initState() {
     widget.model.addListener(() {
-      setState(() {});
+      if (mounted) setState(() {});
     });
 
     super.initState();
@@ -81,8 +81,9 @@ class _IssueViewState extends State<IssueView> {
           centerTitle: true,
           elevation: 0.5,
           backgroundColor: const Color(0xFFFFFFFF),
-          leading: const BackButton(
-            color: Color(0xFF000000),
+          leading: BackButton(
+            color: const Color(0xFF000000),
+            onPressed: () => Navigator.pop(context, widget.model),
           ),
           title: Text(
             'Select an issue',
@@ -226,8 +227,7 @@ class _IssueViewState extends State<IssueView> {
                       children: [
                         TextField(
                           textInputAction: TextInputAction.done,
-                          controller:
-                              TextEditingController(text: widget.model.comment),
+                          controller: widget.model.commentField,
                           onChanged: (v) {
                             widget.model.comment = v;
                           },

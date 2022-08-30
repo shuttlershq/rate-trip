@@ -155,8 +155,7 @@ class RateTrip extends StatelessWidget {
                               onChanged: (v) {
                                 model.comment = v;
                               },
-                              controller:
-                                  TextEditingController(text: model.comment),
+                              controller: model.commentField,
                               maxLines: 2,
                               style: GoogleFonts.heebo(
                                 color: black,
@@ -202,12 +201,15 @@ class RateTrip extends StatelessWidget {
                                           !model.canSend()))
                                   ? null
                                   : model.canPickIssues()
-                                      ? () => Navigator.push(
+                                      ? () async {
+                                          var newModel = await Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     IssueView(model: model)),
-                                          )
+                                          );
+                                          model = newModel;
+                                        }
                                       : () async {
                                           await model.rateTrip();
                                           if (model.state ==
