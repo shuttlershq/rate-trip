@@ -44,45 +44,13 @@ class AppButtonAction extends StatelessWidget {
               ),
             ),
       style: TextButton.styleFrom(
-          primary: effectiveBackgroundColor,
-          backgroundColor: effectiveBackgroundColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          fixedSize: const Size.fromHeight(50)),
+        primary: effectiveBackgroundColor,
+        backgroundColor: effectiveBackgroundColor,
+        padding: const EdgeInsets.symmetric(vertical: 14),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
     );
   }
 }
-
-// class LoadingIndicatorWidget extends StatelessWidget {
-//   final bool centered;
-//   final double radius;
-//   final int ticks;
-//   final Color activeColor;
-//   final Color backColor;
-
-//   const LoadingIndicatorWidget({
-//     Key? key,
-//     this.centered = true,
-//     this.radius = 12,
-//     this.ticks = 10,
-//     this.activeColor = const Color(0xFF20E682),
-//     this.backColor = const Color(0xFF101211),
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final indicator = NutsActivityIndicator(
-//       activeColor: activeColor,
-//       inactiveColor: backColor,
-//       tickCount: ticks,
-//       radius: radius,
-//     );
-
-//     if (centered) {
-//       return Center(child: indicator);
-//     } else {
-//       return indicator;
-//     }
-//   }
-// }
